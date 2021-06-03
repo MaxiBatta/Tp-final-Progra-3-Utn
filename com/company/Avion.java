@@ -6,19 +6,20 @@ public abstract class Avion {
     private float costoKm;
     private int capacidadPasajeros;
     private int velocidadMax;
-    private enum tipoPropulsion{};
+    private Propulsion propulsion;
     private int idAvion;
     private static int cont = 0;
 
     public Avion() {
     }
 
-    public Avion(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax) {
+    public Avion(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion) {
         this.combustible = combustible;
         this.costoKm = costoKm;
         this.capacidadPasajeros = capacidadPasajeros;
         this.velocidadMax = velocidadMax;
         this.idAvion = ++cont;
+        this.propulsion= propulsion;
     }
 
     public int getCombustible() {

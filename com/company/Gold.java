@@ -13,8 +13,8 @@ public class Gold extends Avion{
         this.wifi = wifi;
     }
 
-    public Gold(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, String catering, boolean wifi) {
-        super(combustible, costoKm, capacidadPasajeros, velocidadMax);
+    public Gold(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion, String catering, boolean wifi) {
+        super(combustible, costoKm, capacidadPasajeros, velocidadMax, propulsion);
         this.catering = catering;
         this.wifi = wifi;
     }
