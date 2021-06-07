@@ -5,24 +5,28 @@ private static int cont = 0;
 private int idCliente;
 private String nombre;
 private String apellido;
-private String dni;
+private String usuario;
+private String password;
 private String edad;
-private String password = " ";
+private String dni;
+
+
 
 
 
     public Cliente() {
     }
 
-
-    public Cliente( String nombre, String apellido, String dni, String edad) {
-        this.idCliente = idCliente;
+    public Cliente( String nombre, String apellido, String usuario, String password, String edad, String dni) {
+        this.idCliente = ++cont;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.dni = dni;
+        this.usuario = usuario;
+        this.password = password;
         this.edad = edad;
-
+        this.dni = dni;
     }
+
 
     public static int getCont() {
         return cont;
@@ -75,6 +79,13 @@ private String password = " ";
     public String getPassword() {
         return password;
     }
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -85,6 +96,10 @@ private String password = " ";
                 "\nApellido: " + this.apellido +
                 "\nDni: " + this.dni +
                 "\nEdad: " + this.edad +
+                "\nUsuario: " + this.usuario +
+                "\nPassword: " + this.password +
                 "\n-------------------- ";
     }
+
+
 }
