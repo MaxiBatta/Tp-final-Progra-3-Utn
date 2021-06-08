@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public class Vuelo {
@@ -13,8 +14,8 @@ public class Vuelo {
     public Vuelo() {
     }
 
-    public Vuelo(UUID idVuelo, String fecha, Ruta ruta, int numeroPasajeros, Avion avion) {
-        this.idVuelo = idVuelo;
+    public Vuelo(String fecha, Ruta ruta, int numeroPasajeros, Avion avion) {
+        this.idVuelo = UUID.randomUUID();
         this.fecha = fecha;
         this.ruta = ruta;
         this.numeroPasajeros = numeroPasajeros;
@@ -61,12 +62,19 @@ public class Vuelo {
         this.avion = avion;
     }
 
+    public float calculaCostoVuelo (){
+
+        return (ruta.getDistanciaKm()*avion.getCostoKm()) + numeroPasajeros * 3500 + avion.getTarifaFija();
+    }
+
     @Override
     public String toString() {
-        return "Vuelo: " + this.idVuelo +
+        return "Vuelo: " + this.idVuelo.toString().substring(0,4).toUpperCase(Locale.ROOT) +
                 "\nFecha: " + this.fecha +
-                "\nRuta: " + this.ruta +
-                "\nAvion: " + this.avion;
+                "\nRuta: " + this.ruta.toString() +
+                "\nCosto del Vuelo: " + this.calculaCostoVuelo() +
+                "\nAvion: " + this.avion.toString() ;
+
 
     }
 }

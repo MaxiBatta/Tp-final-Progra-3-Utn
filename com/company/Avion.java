@@ -1,6 +1,11 @@
 package com.company;
 
-public abstract class Avion {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Formatter;
+
+public class Avion {
 
     private int combustible;
     private float costoKm;
@@ -9,18 +14,28 @@ public abstract class Avion {
     private Propulsion propulsion;
     private int idAvion;
     private static int cont = 0;
+    private boolean disponibilidad;
+    private int tarifaFija =0;
+    private ArrayList<String> fechasDisponibles = new ArrayList<>();
+
+
 
     public Avion() {
     }
+
+
 
     public Avion(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion) {
         this.combustible = combustible;
         this.costoKm = costoKm;
         this.capacidadPasajeros = capacidadPasajeros;
         this.velocidadMax = velocidadMax;
+        this.propulsion = propulsion;
         this.idAvion = ++cont;
-        this.propulsion= propulsion;
+        this.disponibilidad = true;
+
     }
+
 
     public int getCombustible() {
         return combustible;
@@ -54,16 +69,84 @@ public abstract class Avion {
         this.velocidadMax = velocidadMax;
     }
 
+    public int getTarifaFija() {
+        return tarifaFija;
+    }
 
+    public void setTarifaFija(int tarifaFija) {
+        this.tarifaFija = tarifaFija;
+    }
+
+    public Propulsion getPropulsion() {
+        return propulsion;
+    }
+
+    public void setPropulsion(Propulsion propulsion) {
+        this.propulsion = propulsion;
+    }
+
+    public int getIdAvion() {
+        return idAvion;
+    }
+
+    public void setIdAvion(int idAvion) {
+        this.idAvion = idAvion;
+    }
+
+    public boolean isDisponibilidad() {
+        return disponibilidad;
+    }
+
+    public void setDisponibilidad(boolean disponibilidad) {
+        this.disponibilidad = disponibilidad;
+    }
+    public void cargaFechasDisponibles (String fecha){
+        LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
+        for (int i= 0; i<180; i++) {
+           fechaLD= fechaLD.plusDays(1);
+           fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
+           fechasDisponibles.add(fecha);
+       }
+    }
+
+    public void removeFechasDisponibles (String fecha){
+        LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
+        fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
+        for (int i =0; i<fechasDisponibles.size(); i++) {
+            if(fechasDisponibles.get(i).equals(fecha)){
+                fechasDisponibles.remove(i);
+            }
+        }
+    }
 
     @Override
     public String toString() {
-        return "Avion{" +
-                "combustible=" + this.combustible +
-                ", costoKm=" + this.costoKm +
-                ", capacidadPasajeros=" + this.capacidadPasajeros +
-                ", velocidadMax=" + this.velocidadMax +
-                ", idAvion=" + this.idAvion +
-                '}';
+        if (disponibilidad) {
+            return  "\nCombustible: " + this.combustible +
+                    "\nCosto Km: " + this.costoKm +
+                    "\nCapacidad de Pasajeros: " + this.capacidadPasajeros +
+                    "\nVelocidad Maxima: " + this.velocidadMax +
+                    "\nID de Avion: " + this.idAvion +
+                    "\nUNIDAD DISPONIBLE " ;
+
+
+        }else{
+            return "\nCombustible: " + this.combustible +
+                    "\nCosto Km: " + this.costoKm +
+                    "\nCapacidad de Pasajeros: " + this.capacidadPasajeros +
+                    "\nVelocidad Maxima: " + this.velocidadMax +
+                    "\nID de Avion: " + this.idAvion +
+                    "\nUNIDAD NO DISPONIBLE " ;
+
+
+        }
+    }
+
+    public ArrayList<String> getFechasDisponibles() {
+        return fechasDisponibles;
+    }
+
+    public void setFechasDisponibles(ArrayList<String> fechasDisponibles) {
+        this.fechasDisponibles = fechasDisponibles;
     }
 }

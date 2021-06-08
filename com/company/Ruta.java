@@ -74,7 +74,4 @@ public class Ruta {
                 "\nDistancia en Km: " + this.distanciaKm +
                 "\n------------------------------" ;
     }
-
-
-
 }
