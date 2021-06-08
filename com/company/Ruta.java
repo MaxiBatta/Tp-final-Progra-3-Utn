@@ -65,7 +65,10 @@ public class Ruta {
     public String toString() {
         return "Origen: " + this.origen +
                 "\nDestino: " + this.destino +
-                "\nDistancia en Km: " + this.distanciaKm;
+                "\nDistancia en Km: " + this.distanciaKm +
+                "\nRuta ID: " + this.idRuta +
+                "\n---------------------------------------";
+
     }
 
 }

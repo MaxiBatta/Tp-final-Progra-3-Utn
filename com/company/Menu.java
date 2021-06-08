@@ -1,4 +1,6 @@
 package com.company;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -18,11 +20,10 @@ public class Menu {
     int opcion;
 
    do {
-        System.out.println("1. Reserva de vuelo");
-        System.out.println("2. Cancelación de vuelo");
-        System.out.println("3. Lista de vuelos");
-        System.out.println("4. Lista de clientes");
-        System.out.println("5. Salir");
+        System.out.println("1. Ingreso sistema de reservas");
+        System.out.println("2. Lista de vuelos");
+        System.out.println("3. Lista de clientes");
+        System.out.println("4. Salir");
         try {
             System.out.println("Escribe una de las opciones");
             opcion = scan.nextInt();
@@ -40,14 +41,11 @@ public class Menu {
                     pausa.nextLine();
                     break;
                 case 4:
-                    System.out.println("Seleccionaste opcion 3");
-                    pausa.nextLine();
-                case 5:
                     salir = true;
                     System.out.println("Gracias por utilizar nuestro servicio");
                     break;
                 default:
-                    System.out.println("Solo opciones entre 1 y 4");
+                    System.out.println("Solo opciones entre 1 y 3");
             }
         } catch (InputMismatchException e) {
             System.out.println("Debes insertar un número");
@@ -73,14 +71,14 @@ public class Menu {
                 opcion = scan.nextInt();
                 switch (opcion) {
                     case 1:
-
                         menuClienteRegistrado();
                         pausa.nextLine();
+
                         break;
                     case 2:
                         menuRegistraCliente();
                         pausa.nextLine();
-                        menuCliente();
+
                         pausa.nextLine();
                         break;
 
@@ -98,37 +96,6 @@ public class Menu {
         } while (!salir);
     }
 
-    public  void menuCliente () {
-        Scanner scan = new Scanner(System.in);
-        Scanner pausa = new Scanner(System.in);
-        boolean salir = false;
-        int opcion;
-
-        do {
-            System.out.println("1. Reserva de vuelo");
-            System.out.println("2. Menu anterior");
-            try {
-                System.out.println("Escribe una de las opciones");
-                opcion = scan.nextInt();
-                switch (opcion) {
-                    case 1:
-                        System.out.println("Has seleccionado la opcion 1");
-                        pausa.nextLine();
-                        break;
-
-                    case 2:
-                        salir = true;
-                        System.out.println("Enter para volver a menu anterior");
-                        break;
-                    default:
-                        System.out.println("Solo opciones entre 1 y 2");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Debes insertar un número");
-                scan.next();
-            }
-        } while (!salir);
-    }
 
     private void menuRegistraCliente() {
         String usuario;
@@ -170,7 +137,6 @@ public class Menu {
     }
     private void menuClienteRegistrado() {
         String dni;
-        int posArray;
         String usuario;
         String password;
         try {
@@ -191,12 +157,128 @@ public class Menu {
             }else{
                 System.out.println("Usuario o contraseña no valida");
             }
-
+            menuCliente(dni);
 
         } catch (InputMismatchException e) {
             System.out.println("Debe ingresar valores enteros para DNI");
             pausa.nextLine();
 
+        }
+    }
+
+    private void menuCliente (String dni) {
+        int opcion;
+        boolean continuar = true;
+
+
+        do {
+            try {
+                System.out.println("Menu Opciones de Cliente " + sistema.buscarCliente1(dni).getNombre());
+                System.out.println("1-Realizar reserva/muestra aviones");
+                System.out.println("2-Cancelar Vuelo");
+                System.out.println("3-Mostrar Historial de Vuelos");
+                System.out.println("4-Mostrar Vuelos de Fecha elegida");
+                System.out.println("5-Volver al menu anterior");
+                opcion = pausa.nextInt();
+
+
+                switch (opcion) {
+                    case 1:
+                        menuAltaReserva();
+                        pausa.nextLine();
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+
+                    case 4:
+
+                        break;
+                    case 5:
+                        System.out.println("saliendo del menu");
+                        continuar = false;
+                        break;
+                    default:
+                        System.out.println("opcion incorrecta");
+                        break;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ingrese un numero entero, por favor");
+                pausa.nextLine();
+            }
+
+        } while (continuar);
+
+    }
+
+    private void menuAltaReserva () {
+        String fecha;
+        String origen;
+        String destino;
+        int pasajeros;
+        int idAvion;
+        String opcion;
+
+
+
+        try {
+            System.out.println("Ingrese fecha de vuelo para reserva");
+            fecha  = pausa.next();
+            LocalDate fechaReserva= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
+            System.out.println("Ingrese cantidad de acompañantes");
+            pasajeros= pausa.nextInt();
+            System.out.println("Rutas disponibles");
+            sistema.altaRuta();
+            sistema.muestraRutas();
+            pausa.nextLine();
+            System.out.println("Ingrese Ciudad de origen");
+            origen = pausa.nextLine();
+            System.out.println("Ingrese Ciudad de destino");
+            destino = pausa.nextLine();
+            System.out.println("\n-----------------------------\n");
+            System.out.println("Aviones disponibles");
+            System.out.println("\n-----------------------------");
+            sistema.altaAvion();
+            sistema.muestraAvionesDisponiblesxFecha(fecha);
+            System.out.println("destino " + destino);
+            System.out.println("origen " + origen);
+
+            System.out.println("Elija un avion disponible por nro de ID");
+            idAvion = pausa.nextInt();
+            Ruta ruta = sistema.buscaRuta(origen, destino);
+            Avion avion= sistema.buscaAvion(idAvion);
+            avion.removeFechasDisponibles(fecha);
+            avion.setDisponibilidad(false);
+            sistema.muestraAviones();
+            System.out.println(ruta);
+
+
+            if(ruta!= null) {
+                if (pasajeros < avion.getCapacidadPasajeros()){
+                sistema.altaVuelo(fecha,ruta, pasajeros, avion);
+                sistema.muestraVuelos();
+                } else{
+                System.out.println("NO tenemos aviones con esa capacidad de pasajeros");
+            }}else{
+                System.out.println("La ruta elegida no es correcta");
+            }
+
+
+            System.out.println("Desea confirmar la reserva para este vuelo S/N? ");
+            opcion = pausa.next();
+
+
+            pausa.nextLine();
+
+
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Error en la eleccion " + e.getMessage());
+        } catch (InputMismatchException exc) {
+            System.out.println("Debe ingresar un numero entero");
+            pausa.nextLine();
         }
     }
 

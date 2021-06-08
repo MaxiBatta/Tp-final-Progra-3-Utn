@@ -8,16 +8,19 @@ public class Gold extends Avion{
     public Gold() {
     }
 
+    public Gold(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion, boolean wifi) {
+        super(combustible, costoKm, capacidadPasajeros, velocidadMax, propulsion);
+        this.catering = catering;
+        this.wifi = wifi;
+        this.setTarifaFija(6000);
+    }
+
     public Gold(String catering, boolean wifi) {
         this.catering = catering;
         this.wifi = wifi;
     }
 
-    public Gold(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion, String catering, boolean wifi) {
-        super(combustible, costoKm, capacidadPasajeros, velocidadMax, propulsion);
-        this.catering = catering;
-        this.wifi = wifi;
-    }
+
 
     public String getCatering() {
         return catering;
@@ -37,8 +40,23 @@ public class Gold extends Avion{
 
     @Override
     public String toString() {
-        return super.toString() +
-                ", Catering: " + this.catering +
-                "Wifi: " + this.wifi;
+        if (wifi) {
+            return "Avion Gold "  +
+                    super.toString() +
+                    "\nCatering: " + this.catering +
+                    "\nWifi: SI" +
+                    "\n-----------------------------" +
+                    "\n-----------------------------" +
+                    "\n";
+
+        }else{
+            return "Avion Gold " +
+                    super.toString() +
+                    "\nCatering: " + this.catering +
+                    "\nWifi: NO" +
+                    "\n-----------------------------" +
+                    "\n-----------------------------"+
+                    "\n";
+        }
     }
 }

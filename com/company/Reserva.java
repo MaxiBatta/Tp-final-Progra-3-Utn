@@ -5,7 +5,7 @@ public class Reserva {
     private static int cont = 0;
     private int idReserva;
     private Vuelo vuelo;
-    private Ruta ruta;
+
 
 
 
@@ -14,11 +14,10 @@ public class Reserva {
 
 
 
-    public Reserva(Cliente cliente, Cliente cliente1, Vuelo vuelo, Ruta ruta) {
+    public Reserva(Cliente cliente, Cliente cliente1, Vuelo vuelo) {
         this.cliente = cliente;
         this.cliente = cliente1;
         this.vuelo = vuelo;
-        this.ruta = ruta;
         this.idReserva = ++cont;
     }
 
@@ -38,13 +37,6 @@ public class Reserva {
         this.vuelo = vuelo;
     }
 
-    public Ruta getRuta() {
-        return ruta;
-    }
-
-    public void setRuta(Ruta ruta) {
-        this.ruta = ruta;
-    }
 
     public static int getCont() {
         return cont;
@@ -56,11 +48,10 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Reserva{" +
-                "cliente=" + cliente +
-                ", cliente=" + cliente +
-                ", vuelo=" + vuelo +
-                ", ruta=" + ruta +
-                '}';
+        return "Reserva " +
+                "\nReserva Id: " + this.idReserva +
+                "\nCliente: " + this.cliente.toString() +
+                "\nVuelo: " + this.vuelo.toString();
+
     }
 }
