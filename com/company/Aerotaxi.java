@@ -38,25 +38,28 @@ public class Aerotaxi {
     }
 
     public Cliente buscarCliente1(String dni) {
-        Cliente cliente = new Cliente();
-        int cont = 0;
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getDni() == dni) {
-                cont = i;
-            }
-        }
-        return clientes.get(cont);
-    }
-
-    public int buscarCliente(String usuario, String password) {
 
         int pos = -1;
         for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getUsuario().equals(usuario) && clientes.get(i).getPassword().equals(password)) {
+            if (clientes.get(i).getDni().equals(dni))
+                pos = i;
+
+        }
+        return clientes.get(pos);
+    }
+
+    public Cliente buscarCliente(String usuario, String password, String dni)throws Exception{
+
+        int pos = -1;
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getUsuario().equals(usuario) && clientes.get(i).getPassword().equals(password)&&clientes.get(i).getDni().equals(dni)) {
                 pos = i;
             }
         }
-        return pos;
+        if (pos==-1)
+            throw new Exception("Cliente no registrado, debe registrarse en opcion Nuevo Cliente");
+
+        return clientes.get(pos);
     }
 
     public String buscarClientePassword(String dni) {
@@ -100,9 +103,9 @@ public class Aerotaxi {
        aviones.get(3).cargaFechasDisponibles("07/06/2021");
        aviones.get(4).cargaFechasDisponibles("07/06/2021");
        aviones.get(5).cargaFechasDisponibles("07/06/2021");
-        aviones.get(1).setDisponibilidad(false);
 
-        System.out.println(aviones.get(0).getFechasDisponibles());
+
+
     }
 
     public void muestraAviones() {
@@ -161,9 +164,27 @@ public class Aerotaxi {
     public void altaVuelo(String fecha, Ruta ruta, int pasajeros,Avion avion){
         vuelos.add(new Vuelo(fecha, ruta, pasajeros,avion));
     }
+    public void altaVuelo(Vuelo vuelo){
+        vuelos.add(vuelo);
+    }
     public void muestraVuelos() {
         for (var vuelo: vuelos) {
             System.out.println(vuelo);
+        }
+    }
+
+    public void altaReserva (Cliente cliente, Vuelo vuelo){
+        reservas.add(new Reserva(cliente, vuelo));
+    }
+    public void muestraReservas() {
+        for (var reserva: reservas) {
+            System.out.println(reserva);
+        }
+    }
+    public void muestraReservas(String dni) {
+        for (var reserva: reservas) {
+            if(reserva.getCliente().getDni()==dni)
+            System.out.println(reserva);
         }
     }
 

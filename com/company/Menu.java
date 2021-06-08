@@ -33,11 +33,15 @@ public class Menu {
                     pausa.nextLine();
                     break;
                 case 2:
-                    System.out.println("Has seleccionado la opcion 2");
+                    System.out.println("Listado de reservas registradas");
+                    System.out.println("-------------------------------");
+                    sistema.muestraReservas();
                     pausa.nextLine();
                     break;
                 case 3:
-                    System.out.println("Has seleccionado la opcion 3");
+                    System.out.println("Listado de Clientes registrados");
+                    System.out.println("-------------------------------");
+                    sistema.muestraClientes();
                     pausa.nextLine();
                     break;
                 case 4:
@@ -50,8 +54,11 @@ public class Menu {
         } catch (InputMismatchException e) {
             System.out.println("Debes insertar un número");
             scan.next();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            pausa.nextLine();
         }
-    } while (!salir);
+   }while (!salir);
 }
 
 
@@ -79,12 +86,13 @@ public class Menu {
                         menuRegistraCliente();
                         pausa.nextLine();
 
-                        pausa.nextLine();
+
                         break;
 
                     case 3:
                         salir = true;
                         System.out.println("Enter para volver a menu anterior");
+                        pausa.nextLine();
                         break;
                     default:
                         System.out.println("Solo opciones entre 1 y 2");
@@ -92,7 +100,10 @@ public class Menu {
             } catch (InputMismatchException e) {
                 System.out.println("Debes insertar un número");
                 scan.next();
-            }
+            }catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    pausa.nextLine();
+                }
         } while (!salir);
     }
 
@@ -106,6 +117,8 @@ public class Menu {
         String dni;
 
         try {
+
+            pausa.reset();
 
             System.out.println("Ingrese su nombre: ");
             nombre = pausa.nextLine();
@@ -127,16 +140,21 @@ public class Menu {
             } else {
                 System.out.println("Este cliente ya existe en el sistema");
             }
-
+            pausa.reset();
+            pausa.nextLine();
 
         } catch (InputMismatchException e) {
-            System.out.println("Debe ingresar numeros para Dni o edad...");
+            System.out.println("Debe ingresar numeros...");
+            pausa.nextLine();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
             pausa.nextLine();
         }
 
     }
-    private void menuClienteRegistrado() {
-        String dni;
+    private void menuClienteRegistrado()  {
+        String dnii;
         String usuario;
         String password;
         try {
@@ -144,36 +162,42 @@ public class Menu {
             System.out.println("Ingrese Usuario:");
             usuario = pausa.next();
             System.out.println("Ingrese Password");
-            pausa.nextLine();
             password = pausa.next();
-            System.out.println("Ingrese dni");
-            pausa.nextLine();
-            dni = pausa.next();
-            Cliente cliente = sistema.buscarCliente1(dni);
-            System.out.println(sistema.buscarCliente1(dni));
+            System.out.println("Ingrese su dni");
+            pausa.reset();
+            dnii= pausa.next();
 
-            if(sistema.buscarCliente(usuario,password)>-1) {
+            Cliente cliente = sistema.buscarCliente(usuario,password, dnii);
+            System.out.println(sistema.buscarCliente(usuario, password, dnii));
+
+            if(cliente!=null)
                 System.out.println("Acceso exitoso!");
-            }else{
+            if(cliente==null)
                 System.out.println("Usuario o contraseña no valida");
-            }
-            menuCliente(dni);
+            menuCliente(dnii);
+            pausa.nextLine();
+
 
         } catch (InputMismatchException e) {
             System.out.println("Debe ingresar valores enteros para DNI");
             pausa.nextLine();
-
         }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            pausa.nextLine();
+        }
+        pausa.reset();
     }
 
     private void menuCliente (String dni) {
+        Cliente cliente = sistema.buscarCliente1(dni);
         int opcion;
         boolean continuar = true;
 
 
         do {
             try {
-                System.out.println("Menu Opciones de Cliente " + sistema.buscarCliente1(dni).getNombre());
+                System.out.println("Menu Opciones de Cliente " + cliente.getNombre());
                 System.out.println("1-Realizar reserva/muestra aviones");
                 System.out.println("2-Cancelar Vuelo");
                 System.out.println("3-Mostrar Historial de Vuelos");
@@ -184,7 +208,7 @@ public class Menu {
 
                 switch (opcion) {
                     case 1:
-                        menuAltaReserva();
+                        menuAltaReserva(dni);
                         pausa.nextLine();
                         break;
                     case 2:
@@ -208,20 +232,23 @@ public class Menu {
             } catch (InputMismatchException e) {
                 System.out.println("ingrese un numero entero, por favor");
                 pausa.nextLine();
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+                pausa.nextLine();
             }
 
         } while (continuar);
 
     }
 
-    private void menuAltaReserva () {
+    private void menuAltaReserva (String dni) {
         String fecha;
         String origen;
         String destino;
         int pasajeros;
         int idAvion;
         String opcion;
-
+        Cliente cliente = sistema.buscarCliente1(dni);
 
 
         try {
@@ -251,15 +278,15 @@ public class Menu {
             Ruta ruta = sistema.buscaRuta(origen, destino);
             Avion avion= sistema.buscaAvion(idAvion);
             avion.removeFechasDisponibles(fecha);
-            avion.setDisponibilidad(false);
             sistema.muestraAviones();
-            System.out.println(ruta);
 
+            System.out.println(ruta);
+            Vuelo vuelo= new Vuelo(fecha,ruta,pasajeros,avion);
 
             if(ruta!= null) {
                 if (pasajeros < avion.getCapacidadPasajeros()){
-                sistema.altaVuelo(fecha,ruta, pasajeros, avion);
-                sistema.muestraVuelos();
+                    sistema.altaVuelo(vuelo);
+                    sistema.muestraVuelos();
                 } else{
                 System.out.println("NO tenemos aviones con esa capacidad de pasajeros");
             }}else{
@@ -269,15 +296,20 @@ public class Menu {
 
             System.out.println("Desea confirmar la reserva para este vuelo S/N? ");
             opcion = pausa.next();
+            if (opcion == "s")
+
+                System.out.println("Reserva exitosa");
+                sistema.altaReserva(cliente,vuelo);
+                System.out.println("---------------");
+                sistema.muestraReservas();
+
 
 
             pausa.nextLine();
 
 
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Error en la eleccion " + e.getMessage());
-        } catch (InputMismatchException exc) {
-            System.out.println("Debe ingresar un numero entero");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             pausa.nextLine();
         }
     }
