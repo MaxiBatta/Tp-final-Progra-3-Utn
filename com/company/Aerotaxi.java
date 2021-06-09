@@ -1,20 +1,64 @@
 package com.company;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Aerotaxi {
 
-
+    private File archivoClientes = new File("Clientes.json");
+    private File archivoAviones = new File("Aviones.json");
+    private File archivoVuelos = new File("Vuelos.json");
+    private File archivoReservas = new File("Reservas.json");
     private ArrayList<Cliente> clientes = new ArrayList<>();
     private ArrayList<Avion> aviones = new ArrayList<>();
     private ArrayList<Vuelo> vuelos = new ArrayList<>();
     private ArrayList<Reserva> reservas = new ArrayList<>();
     private ArrayList<Ruta> rutas = new ArrayList<>();
 
+    private static GsonBuilder gb = new GsonBuilder();
+    Gson gson = gb.setPrettyPrinting().create();
+
+    public void guardarClientes() {
+        try {
+            String json = gson.toJson(clientes);
+
+            FileWriter file = new FileWriter(archivoClientes);
+            file.write(json);
+
+            file.flush();
+            file.close();
+
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+    }
+
+    public ArrayList<Cliente> cargarClientes() {
+        ArrayList<Cliente> clientes = new ArrayList<>();
+
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(archivoClientes));
+
+            clientes = gson.fromJson(reader,(new TypeToken<ArrayList<Cliente>>(){}.getType()));
+
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+        return clientes;
+    }
+
 
     public Aerotaxi() {
+        clientes = cargarClientes();
+
     }
 
     public Aerotaxi(ArrayList<Cliente> clientes, ArrayList<Avion> aviones, ArrayList<Vuelo> vuelos) {
@@ -23,13 +67,13 @@ public class Aerotaxi {
         this.vuelos = vuelos;
     }
 
-    public void altaCliente(String nombre, String apellido, String usuario, String password, String edad, String dni) {
+    public void altaCliente(String nombre, String apellido, String usuario, String password, int edad, int dni) {
         Cliente nuevo = new Cliente(nombre, apellido, usuario, password, edad, dni);
         clientes.add(nuevo);
 
     }
 
-    public int buscarCliente(String dni) {
+    public int buscarCliente(int dni) {
         for (int i = 0; i < clientes.size(); i++) {
             if (clientes.get(i).getDni() == dni)
                 return i;
@@ -37,7 +81,7 @@ public class Aerotaxi {
         return -1;
     }
 
-    public Cliente buscarCliente1(String dni) {
+    public Cliente buscarCliente1(int dni) {
 
         int pos = -1;
         for (int i = 0; i < clientes.size(); i++) {
@@ -48,7 +92,7 @@ public class Aerotaxi {
         return clientes.get(pos);
     }
 
-    public Cliente buscarCliente(String usuario, String password, String dni)throws Exception{
+    public Cliente buscarCliente(String usuario, String password, int dni)throws Exception{
 
         int pos = -1;
         for (int i = 0; i < clientes.size(); i++) {
@@ -62,27 +106,7 @@ public class Aerotaxi {
         return clientes.get(pos);
     }
 
-    public String buscarClientePassword(String dni) {
-        Cliente cliente = new Cliente();
-        int cont = 0;
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getDni() == dni) {
-                cont = i;
-            }
-        }
-        return clientes.get(cont).getPassword();
-    }
 
-    public String buscarClienteUsuario(String dni) {
-        Cliente cliente = new Cliente();
-        int cont = 0;
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getDni() == dni) {
-                cont = i;
-            }
-        }
-        return clientes.get(cont).getUsuario();
-    }
 
     public void muestraClientes() {
         for (var cliente : clientes) {
@@ -113,18 +137,18 @@ public class Aerotaxi {
             System.out.println(avion);
         }
     }
-    public void muestraAvionesDisponiblesxFecha(String fecha) {
+    public void muestraAvionesDisponiblesPorFecha(String fecha) {
         LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
         fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
-        for (var avion : aviones) {
-            if(avion.getFechasDisponibles().contains(fecha) && avion.isDisponibilidad())
-            {
-            System.out.println(avion);
+        for (Avion avion : aviones) {
+            if (avion.getFechasDisponibles().contains(fecha) && avion.isDisponibilidad()) {
+                System.out.println(avion );
             }
-    }}
+        }
+    }
 
 
-    public Avion buscaAvion (int idAvion){
+    public Avion buscaAvion (int idAvion) throws Exception{
         int pos=-1;
         Avion avionAux= new Avion();
 
@@ -133,6 +157,9 @@ public class Aerotaxi {
                 pos= i ;
             }
         }
+        if (pos==-1)
+            throw new Exception("Nro de avion elegido no valido");
+
         return aviones.get(pos);
     }
 
@@ -181,7 +208,7 @@ public class Aerotaxi {
             System.out.println(reserva);
         }
     }
-    public void muestraReservas(String dni) {
+    public void muestraReservas(int dni) {
         for (var reserva: reservas) {
             if(reserva.getCliente().getDni()==dni)
             System.out.println(reserva);

@@ -9,6 +9,7 @@ public class Menu {
     Scanner scan = new Scanner(System.in);
     Scanner pausa = new Scanner (System.in);
     Aerotaxi sistema = new Aerotaxi();
+    Validacion valida = new Validacion();
 
     public Menu() {
     }
@@ -21,7 +22,7 @@ public class Menu {
 
    do {
         System.out.println("1. Ingreso sistema de reservas");
-        System.out.println("2. Lista de vuelos");
+        System.out.println("2. Lista de vuelos reservados");
         System.out.println("3. Lista de clientes");
         System.out.println("4. Salir");
         try {
@@ -46,10 +47,12 @@ public class Menu {
                     break;
                 case 4:
                     salir = true;
+                    sistema.guardarClientes();
+
                     System.out.println("Gracias por utilizar nuestro servicio");
                     break;
                 default:
-                    System.out.println("Solo opciones entre 1 y 3");
+                    System.out.println("Solo opciones entre 1 y 4");
             }
         } catch (InputMismatchException e) {
             System.out.println("Debes insertar un número");
@@ -113,8 +116,8 @@ public class Menu {
         String password;
         String nombre;
         String apellido;
-        String edad;
-        String dni;
+        int edad;
+        int dni;
 
         try {
 
@@ -122,30 +125,35 @@ public class Menu {
 
             System.out.println("Ingrese su nombre: ");
             nombre = pausa.nextLine();
+            valida.validaNombreApellido(nombre);
             System.out.println("Ingrese su apellido: ");
             apellido = pausa.nextLine();
+            valida.validaNombreApellido(apellido);
             System.out.println("Ingrese su edad: ");
-            edad = pausa.next();
+            edad = pausa.nextInt();
+            valida.validaEdad(edad);
             System.out.println("Ingrese su dni: ");
-            dni = pausa.next();
+            dni = pausa.nextInt();
+            valida.validaDni(dni);
             System.out.println("Ingrese un Usuario: ");
             usuario = pausa.next();
+            valida.validaLetrasYnumeros(usuario);
             System.out.println("Ingrese su password: ");
             password = pausa.next();
+            valida.validaLetrasYnumeros(password);
 
             if (sistema.buscarCliente(dni) == -1) {
                 sistema.altaCliente(nombre,apellido,usuario,password,edad,dni);
                 System.out.println("Registracion exitosa");
                 sistema.muestraClientes();
             } else {
-                System.out.println("Este cliente ya existe en el sistema");
+                System.out.println("Este DNI ya se encuentra registrado en el sistema");
             }
             pausa.reset();
             pausa.nextLine();
 
         } catch (InputMismatchException e) {
             System.out.println("Debe ingresar numeros...");
-            pausa.nextLine();
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -154,7 +162,7 @@ public class Menu {
 
     }
     private void menuClienteRegistrado()  {
-        String dnii;
+        int dnii;
         String usuario;
         String password;
         try {
@@ -165,7 +173,7 @@ public class Menu {
             password = pausa.next();
             System.out.println("Ingrese su dni");
             pausa.reset();
-            dnii= pausa.next();
+            dnii= pausa.nextInt();
 
             Cliente cliente = sistema.buscarCliente(usuario,password, dnii);
             System.out.println(sistema.buscarCliente(usuario, password, dnii));
@@ -180,7 +188,6 @@ public class Menu {
 
         } catch (InputMismatchException e) {
             System.out.println("Debe ingresar valores enteros para DNI");
-            pausa.nextLine();
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -189,7 +196,7 @@ public class Menu {
         pausa.reset();
     }
 
-    private void menuCliente (String dni) {
+    private void menuCliente (int dni) {
         Cliente cliente = sistema.buscarCliente1(dni);
         int opcion;
         boolean continuar = true;
@@ -226,12 +233,11 @@ public class Menu {
                         continuar = false;
                         break;
                     default:
-                        System.out.println("opcion incorrecta");
+                        System.out.println("Solo opciones entre 1 y 5");
                         break;
                 }
             } catch (InputMismatchException e) {
                 System.out.println("ingrese un numero entero, por favor");
-                pausa.nextLine();
             }catch (Exception e) {
                 System.out.println(e.getMessage());
                 pausa.nextLine();
@@ -241,7 +247,7 @@ public class Menu {
 
     }
 
-    private void menuAltaReserva (String dni) {
+    private void menuAltaReserva (int dni) {
         String fecha;
         String origen;
         String destino;
@@ -254,7 +260,6 @@ public class Menu {
         try {
             System.out.println("Ingrese fecha de vuelo para reserva");
             fecha  = pausa.next();
-            LocalDate fechaReserva= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
             System.out.println("Ingrese cantidad de acompañantes");
             pasajeros= pausa.nextInt();
             System.out.println("Rutas disponibles");
@@ -269,18 +274,16 @@ public class Menu {
             System.out.println("Aviones disponibles");
             System.out.println("\n-----------------------------");
             sistema.altaAvion();
-            sistema.muestraAvionesDisponiblesxFecha(fecha);
+            sistema.muestraAvionesDisponiblesPorFecha(fecha);
             System.out.println("destino " + destino);
             System.out.println("origen " + origen);
-
             System.out.println("Elija un avion disponible por nro de ID");
+            pausa.reset();
             idAvion = pausa.nextInt();
             Ruta ruta = sistema.buscaRuta(origen, destino);
             Avion avion= sistema.buscaAvion(idAvion);
-            avion.removeFechasDisponibles(fecha);
-            sistema.muestraAviones();
+            System.out.println(avion.getFechasDisponibles());
 
-            System.out.println(ruta);
             Vuelo vuelo= new Vuelo(fecha,ruta,pasajeros,avion);
 
             if(ruta!= null) {
@@ -294,15 +297,20 @@ public class Menu {
             }
 
 
-            System.out.println("Desea confirmar la reserva para este vuelo S/N? ");
-            opcion = pausa.next();
-            if (opcion == "s")
-
+            System.out.println("Desea confirmar la reserva para este vuelo Si/No? ");
+            opcion = scan.nextLine();
+            if (opcion.equals("si")) {
                 System.out.println("Reserva exitosa");
-                sistema.altaReserva(cliente,vuelo);
+                sistema.altaReserva(cliente, vuelo);
                 System.out.println("---------------");
                 sistema.muestraReservas();
+                avion.removeFechasDisponibles(fecha);
+                avion.setDisponibilidad(false);
+                System.out.println(avion.getFechasDisponibles());
 
+            }else{
+                System.out.println("Gracias por tu consulta");
+            }
 
 
             pausa.nextLine();
