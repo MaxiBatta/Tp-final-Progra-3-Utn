@@ -41,6 +41,8 @@ public class Menu {
 
                         sistema.guardarClientes();
                         sistema.guardarRutas();
+                        sistema.guardarAviones();
+                        sistema.guardarRutas();
 
 
 
@@ -296,7 +298,6 @@ public class Menu {
             System.out.println("\n-----------------------------\n");
             System.out.println("Aviones disponibles");
             System.out.println("\n-----------------------------");
-
             sistema.muestraAvionesDisponiblesPorFecha(fecha);
             pausa.reset();
             //System.out.println("destino " + destino);
@@ -364,8 +365,9 @@ public class Menu {
                 System.out.println("2. Listado de reservas por fecha");
                 System.out.println("3. Listado de reservas por cliente");
                 System.out.println("4. Listado completo de reservas");
+                System.out.println("5. Ficha Tecnica Aviones");
 
-                System.out.println("5. Menu anterior");
+                System.out.println("6. Menu anterior");
 
                 try {
                     System.out.println("Escribe una de las opciones");
@@ -395,6 +397,18 @@ public class Menu {
 
                             break;
                         case 5:
+
+                            Gold avionGold = new Gold();
+                            Silver avionSilver = new Silver();
+                            Bronze avionBronze = new Bronze();
+
+                            avionGold.serviceAvion();
+                            avionSilver.serviceAvion();
+                            avionBronze.serviceAvion();
+
+
+                            break;
+                        case 6:
                             salir = true;
                             System.out.println("Enter para volver a menu anterior");
 

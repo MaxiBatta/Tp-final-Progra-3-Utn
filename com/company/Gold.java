@@ -1,6 +1,6 @@
 package com.company;
 
-public class Gold extends Avion{
+public class Gold extends Avion implements ServiceAvion{
 
     private String catering ="Premiun";
     private boolean wifi;
@@ -58,5 +58,16 @@ public class Gold extends Avion{
                     "\n-----------------------------"+
                     "\n";
         }
+    }
+
+    @Override
+    public void serviceAvion() {
+        System.out.println("\n\nTabla de Service Aviones Gold:");
+        System.out.println("Origen: Alemania");
+        System.out.println("Fecha de fabricacion: 2018");
+        System.out.println("Service cada 50 horas/vuelo");
+        System.out.println("---------------------------");
+
+
     }
 }
