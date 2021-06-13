@@ -7,8 +7,8 @@ private String nombre;
 private String apellido;
 private String usuario;
 private String password;
-private String edad;
-private String dni;
+private Integer edad;
+private Integer dni;
 
 
 
@@ -17,7 +17,7 @@ private String dni;
     public Cliente() {
     }
 
-    public Cliente( String nombre, String apellido, String usuario, String password, String edad, String dni) {
+    public Cliente( String nombre, String apellido, String usuario, String password, int edad, int dni) {
         this.idCliente = ++cont;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -60,19 +60,19 @@ private String dni;
         this.apellido = apellido;
     }
 
-    public String getDni() {
+    public Integer getDni() {
         return dni;
     }
 
-    public void setDni(String dni) {
+    public void setDni(Integer dni) {
         this.dni = dni;
     }
 
-    public String getEdad() {
+    public Integer getEdad() {
         return edad;
     }
 
-    public void setEdad(String edad) {
+    public void setEdad(Integer edad) {
         this.edad = edad;
     }
 

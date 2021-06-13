@@ -14,9 +14,8 @@ public class Reserva {
 
 
 
-    public Reserva(Cliente cliente, Cliente cliente1, Vuelo vuelo) {
+    public Reserva(Cliente cliente, Vuelo vuelo) {
         this.cliente = cliente;
-        this.cliente = cliente1;
         this.vuelo = vuelo;
         this.idReserva = ++cont;
     }
@@ -48,7 +47,8 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Reserva " +
+        return "-----------------------------------" +
+                "\nReserva " +
                 "\nReserva Id: " + this.idReserva +
                 "\nCliente: " + this.cliente.toString() +
                 "\nVuelo: " + this.vuelo.toString();
