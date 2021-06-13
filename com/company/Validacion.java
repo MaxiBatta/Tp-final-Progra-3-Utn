@@ -1,7 +1,13 @@
 package com.company;
 
-public class Validacion {
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Scanner;
 
+public class Validacion {
+    Scanner scan = new Scanner(System.in);
     public Validacion() {
     }
 
@@ -40,10 +46,12 @@ public class Validacion {
 
     // nombres y apellidos
     public  boolean validaNombreApellido (String string) throws Exception {
-        if (!soloLetra(string))
-            throw new Exception("Debe ingresar solo caracteres alfabeticos");
-        if (string.length() < 3)
-            throw new Exception("Debe ingresar al menos 4 caracteres");
+
+            if (!soloLetra(string))
+                throw new Exception("Debe ingresar solo caracteres alfabeticos");
+
+            if (string.length() < 3)
+                throw new Exception("Debe ingresar al menos 4 caracteres");
 
 
         return true;
@@ -61,6 +69,26 @@ public class Validacion {
         return true;
 
     }
+    public  boolean validaFechaFormato(String fecha) throws Exception {
+
+        if (fecha.length() != 10)
+            throw new Exception("Fecha/Formato incorrecto/ Ingrese dd/mm/yyyy");
+
+        return true;
+
+    }
+    public  boolean validaFecha( LocalDate fechaLd) throws Exception {
+        LocalDate fechaActual = LocalDate.now();
+        if (fechaActual.isAfter(fechaLd)) {
+            throw new Exception("Fecha no puede ser anterior a la actual");
+        }
+        if (fechaLd.getYear() != 2021) {
+            throw new Exception("Todavia no hay vuelos programados para esa fecha");
+        }
+
+        return true;
+
+    }
 
     // Para Dni
     public  boolean validaDni(int dni) throws Exception {
@@ -72,9 +100,18 @@ public class Validacion {
     }
 
     //para verificar origen y destino
-    public  boolean validaOrigenDestino(String origen, String destino) throws Exception {
-        if (origen.equals(destino)) {
+    public  boolean validaOrigenDestino(String string1, String string2) throws Exception {
+        if (string1.equals(string2)) {
             throw new Exception("Origen y  Destino no pueden ser iguales");
+        }
+
+        return true;
+    }
+
+    public  boolean validaCantAcompañantes(ArrayList<Avion> aviones , int cant) throws Exception {
+        for (Avion avion : aviones)
+        if (cant > avion.getCapacidadPasajeros()) {
+            throw new Exception("No tenemos aviones disponibles con esa capacidad de pasajeros");
         }
 
         return true;

@@ -47,7 +47,8 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Reserva " +
+        return "-----------------------------------" +
+                "\nReserva " +
                 "\nReserva Id: " + this.idReserva +
                 "\nCliente: " + this.cliente.toString() +
                 "\nVuelo: " + this.vuelo.toString();

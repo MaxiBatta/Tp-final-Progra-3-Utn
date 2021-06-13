@@ -14,6 +14,7 @@ public class Aerotaxi {
     private File archivoAviones = new File("Aviones.json");
     private File archivoVuelos = new File("Vuelos.json");
     private File archivoReservas = new File("Reservas.json");
+    private File archivoRutas = new File("Rutas.json");
     private ArrayList<Cliente> clientes = new ArrayList<>();
     private ArrayList<Avion> aviones = new ArrayList<>();
     private ArrayList<Vuelo> vuelos = new ArrayList<>();
@@ -54,10 +55,138 @@ public class Aerotaxi {
         }
         return clientes;
     }
+    public void guardarAviones() {
+        try {
+            String json = gson.toJson(aviones);
 
+            FileWriter file = new FileWriter(archivoAviones);
+            file.write(json);
+
+            file.flush();
+            file.close();
+
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+    }
+
+    public ArrayList<Avion> cargarAviones() {
+        ArrayList<Avion> aviones = new ArrayList<>();
+
+
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(archivoAviones));
+
+            aviones = gson.fromJson(reader,(new TypeToken<ArrayList<Avion>>(){}.getType()));
+
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+        return aviones;
+    }
+    public void guardarRutas() {
+        try {
+            String json = gson.toJson(rutas);
+
+            FileWriter file = new FileWriter(archivoRutas);
+            file.write(json);
+
+            file.flush();
+            file.close();
+
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+    }
+
+    public ArrayList<Ruta> cargarRutas() {
+        ArrayList<Ruta> rutas = new ArrayList<>();
+
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(archivoRutas));
+
+            rutas = gson.fromJson(reader,(new TypeToken<ArrayList<Ruta>>(){}.getType()));
+
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+        return rutas;
+    }
+    public void guardarVuelos() {
+        try {
+            String json = gson.toJson(vuelos);
+
+            FileWriter file = new FileWriter(archivoVuelos);
+            file.write(json);
+
+            file.flush();
+            file.close();
+
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+    }
+
+    public ArrayList<Vuelo> cargarVuelos() {
+        ArrayList<Vuelo> vuelos = new ArrayList<>();
+
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(archivoVuelos));
+
+            vuelos = gson.fromJson(reader,(new TypeToken<ArrayList<Vuelo>>(){}.getType()));
+
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+        return vuelos;
+    }
+    public void guardarReservas() {
+        try {
+            String json = gson.toJson(reservas);
+
+            FileWriter file = new FileWriter(archivoReservas);
+            file.write(json);
+
+            file.flush();
+            file.close();
+
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+    }
+
+    public ArrayList<Reserva> cargarReservas() {
+        ArrayList<Reserva> reservas = new ArrayList<>();
+
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(archivoReservas));
+
+            reservas = gson.fromJson(reader,(new TypeToken<ArrayList<Reserva>>(){}.getType()));
+
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("error: " + e.getMessage());
+        }
+        return reservas;
+    }
 
     public Aerotaxi() {
         clientes = cargarClientes();
+        aviones = cargarAviones();
+        rutas = cargarRutas();
+        vuelos = cargarVuelos();
+        reservas = cargarReservas();
 
     }
 
@@ -162,6 +291,22 @@ public class Aerotaxi {
 
         return aviones.get(pos);
     }
+    public Avion buscaAvion1 (int idAvion) throws Exception {
+
+        Avion avionAux = new Avion();
+        avionAux = null;
+
+        for (Avion avion : aviones) {
+            if (avion.getIdAvion() == idAvion) {
+                avionAux = avion;
+            }
+        }
+        if (avionAux == null) {
+            throw new Exception("Nro de avion elegido no valido");
+        }
+    return avionAux;
+    }
+
 
     public void altaRuta (){
         rutas.add(new Ruta("Buenos Aires","Cordoba", 695 ));
@@ -178,6 +323,22 @@ public class Aerotaxi {
             System.out.println(ruta);
         }
     }
+    public Ruta buscaRutaId (int id) throws Exception {
+
+        Ruta rutaAux = new Ruta();
+        rutaAux = null;
+
+        for (Ruta ruta : rutas) {
+            if (ruta.getIdRuta() == id) {
+                rutaAux = ruta;
+            }
+        }
+        if (rutaAux == null) {
+            throw new Exception("Nro de Id de ruta elegido no valido");
+        }
+        return rutaAux;
+    }
+
     public Ruta buscaRuta (String origen, String destino){
         int pos = -1;
         Ruta rutaAux = new Ruta();
@@ -187,6 +348,19 @@ public class Aerotaxi {
             }
         }
         return rutas.get(pos);
+    }
+    public Ruta buscaRuta1 (String origen, String destino) throws Exception {
+
+        Ruta rutaAux = new Ruta();
+        rutaAux = null;
+
+        for (Ruta ruta : rutas) {
+            if (ruta.getOrigen().equals(origen)&& ruta.getDestino().equals(destino)) {
+                rutaAux = ruta;
+            }
+        }
+
+        return rutaAux;
     }
     public void altaVuelo(String fecha, Ruta ruta, int pasajeros,Avion avion){
         vuelos.add(new Vuelo(fecha, ruta, pasajeros,avion));
@@ -215,5 +389,12 @@ public class Aerotaxi {
         }
     }
 
+    public ArrayList<Avion> getAviones() {
+        return aviones;
+    }
+
+    public void setAviones(ArrayList<Avion> aviones) {
+        this.aviones = aviones;
+    }
 }
 
