@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Menu {
     Scanner scan = new Scanner(System.in);
     Scanner pausa = new Scanner(System.in);
-    Aerotaxi sistema = new Aerotaxi();
+    AeroTaxi sistema = new AeroTaxi();
     Validacion valida = new Validacion();
 
     public Menu() {
