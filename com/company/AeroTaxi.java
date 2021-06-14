@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Aerotaxi {
+public class AeroTaxi {
 
     private File archivoClientes = new File("Clientes.json");
     private File archivoAviones = new File("Aviones.json");
@@ -181,7 +181,7 @@ public class Aerotaxi {
         return reservas;
     }
 
-    public Aerotaxi() {
+    public AeroTaxi() {
         clientes = cargarClientes();
         aviones = cargarAviones();
         rutas = cargarRutas();
@@ -190,7 +190,7 @@ public class Aerotaxi {
 
     }
 
-    public Aerotaxi(ArrayList<Cliente> clientes, ArrayList<Avion> aviones, ArrayList<Vuelo> vuelos) {
+    public AeroTaxi(ArrayList<Cliente> clientes, ArrayList<Avion> aviones, ArrayList<Vuelo> vuelos) {
         this.clientes = clientes;
         this.aviones = aviones;
         this.vuelos = vuelos;

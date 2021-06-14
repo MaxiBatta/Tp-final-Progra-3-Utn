@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Menu {
     Scanner scan = new Scanner(System.in);
     Scanner pausa = new Scanner(System.in);
-    Aerotaxi sistema = new Aerotaxi();
+    AeroTaxi sistema = new AeroTaxi();
     Validacion valida = new Validacion();
 
     public Menu() {
@@ -43,8 +43,12 @@ public class Menu {
                         sistema.guardarClientes();
                         sistema.guardarRutas();
                         sistema.guardarAviones();
+<<<<<<< HEAD
 
 
+=======
+                        sistema.guardarRutas();
+>>>>>>> 8c03de0921ef5e5610b2de7b977fd24a8c6e991b
 
 
 
@@ -327,10 +331,14 @@ public class Menu {
             System.out.println(ruta);
             System.out.println("\n-----------------------------\n");
             System.out.println("Aviones disponibles");
+<<<<<<< HEAD
             System.out.println("\n-----------------------------\n");
             
             System.out.println(fecha +fechaLd);
             pausa.nextLine();
+=======
+            System.out.println("\n-----------------------------");
+>>>>>>> 8c03de0921ef5e5610b2de7b977fd24a8c6e991b
             sistema.muestraAvionesDisponiblesPorFecha(fecha);
 
 
@@ -404,7 +412,11 @@ public class Menu {
                 System.out.println("2. Listado de reservas por fecha");
                 System.out.println("3. Listado de reservas por cliente");
                 System.out.println("4. Listado completo de reservas");
+<<<<<<< HEAD
                 System.out.println("5. Ficha tecnica aviones");
+=======
+                System.out.println("5. Ficha Tecnica Aviones");
+>>>>>>> 8c03de0921ef5e5610b2de7b977fd24a8c6e991b
 
                 System.out.println("6. Menu anterior");
 
@@ -436,6 +448,7 @@ public class Menu {
 
                             break;
                         case 5:
+<<<<<<< HEAD
                             Gold avionGold = new Gold();
                             Silver avionSilver = new Silver();
                             Bronze avionBronze = new Bronze();
@@ -444,6 +457,16 @@ public class Menu {
                             avionBronze.serviceAvion();
                             pausa.nextLine();
 
+=======
+
+                            Gold avionGold = new Gold();
+                            Silver avionSilver = new Silver();
+                            Bronze avionBronze = new Bronze();
+
+                            avionGold.serviceAvion();
+                            avionSilver.serviceAvion();
+                            avionBronze.serviceAvion();
+>>>>>>> 8c03de0921ef5e5610b2de7b977fd24a8c6e991b
 
 
                             break;

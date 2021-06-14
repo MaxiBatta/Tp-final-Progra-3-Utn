@@ -1,0 +1,11 @@
+[
+  {
+    "idCliente": 1,
+    "nombre": "Matias",
+    "apellido": "Fierro",
+    "usuario": "mfierro",
+    "password": "mfierro",
+    "edad": 35,
+    "dni": 31821264
+  }
+]

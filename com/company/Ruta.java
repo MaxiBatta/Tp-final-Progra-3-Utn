@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public class Ruta {
 
     private static int cont = 0;
@@ -61,14 +63,15 @@ public class Ruta {
         this.idRuta = idRuta;
     }
 
+
+
+
     @Override
     public String toString() {
-        return "Origen: " + this.origen +
+        return "Ruta ID: " + this.idRuta +
+                "\nOrigen: " + this.origen +
                 "\nDestino: " + this.destino +
                 "\nDistancia en Km: " + this.distanciaKm +
-                "\nRuta ID: " + this.idRuta +
-                "\n---------------------------------------";
-
+                "\n------------------------------" ;
     }
-
 }
