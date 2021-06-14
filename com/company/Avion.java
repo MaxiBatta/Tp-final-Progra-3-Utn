@@ -1,5 +1,8 @@
 package com.company;
 
+
+
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ public class Avion {
     private boolean disponibilidad;
     private int tarifaFija =0;
     private ArrayList<String> fechasDisponibles = new ArrayList<>();
+
 
 
 
@@ -100,9 +104,10 @@ public class Avion {
     public void setDisponibilidad(boolean disponibilidad) {
         this.disponibilidad = disponibilidad;
     }
+
     public void cargaFechasDisponibles (String fecha){
         LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
-        for (int i= 0; i<180; i++) {
+        for (int i= 0; i<200; i++) {
            fechaLD= fechaLD.plusDays(1);
            fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
            fechasDisponibles.add(fecha);
@@ -142,6 +147,7 @@ public class Avion {
         }
     }
 
+
     public ArrayList<String> getFechasDisponibles() {
         return fechasDisponibles;
     }
@@ -149,4 +155,10 @@ public class Avion {
     public void setFechasDisponibles(ArrayList<String> fechasDisponibles) {
         this.fechasDisponibles = fechasDisponibles;
     }
+    public void muestraFechasDisponibles(){
+        for (String fecha: fechasDisponibles){
+            System.out.println(fecha);
+        }
+    }
+
 }

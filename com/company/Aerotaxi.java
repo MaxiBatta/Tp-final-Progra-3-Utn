@@ -250,14 +250,12 @@ public class Aerotaxi {
         aviones.add(new Silver(8000, 280, 20, 500, Propulsion.Reaccion));
         aviones.add(new Bronze(9000, 180, 30, 400, Propulsion.Helice));
         aviones.add(new Bronze(5000, 150, 10, 450, Propulsion.Helice));
-       aviones.get(0).cargaFechasDisponibles("07/06/2021");
-       aviones.get(1).cargaFechasDisponibles("07/06/2021");
-       aviones.get(2).cargaFechasDisponibles("07/06/2021");
-       aviones.get(3).cargaFechasDisponibles("07/06/2021");
-       aviones.get(4).cargaFechasDisponibles("07/06/2021");
-       aviones.get(5).cargaFechasDisponibles("07/06/2021");
-
-
+       aviones.get(0).cargaFechasDisponibles("14/06/2021");
+       aviones.get(1).cargaFechasDisponibles("14/06/2021");
+       aviones.get(2).cargaFechasDisponibles("14/06/2021");
+       aviones.get(3).cargaFechasDisponibles("14/06/2021");
+       aviones.get(4).cargaFechasDisponibles("14/06/2021");
+       aviones.get(5).cargaFechasDisponibles("14/06/2021");
 
     }
 
@@ -267,12 +265,17 @@ public class Aerotaxi {
         }
     }
     public void muestraAvionesDisponiblesPorFecha(String fecha) {
+        Boolean dispo=false;
         LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
         fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
         for (Avion avion : aviones) {
             if (avion.getFechasDisponibles().contains(fecha) && avion.isDisponibilidad()) {
                 System.out.println(avion );
+                dispo=true;
             }
+        }
+        if (!dispo){
+            System.out.println("No tenemos aviones disponibles para esa fecha");
         }
     }
 
@@ -374,8 +377,25 @@ public class Aerotaxi {
         }
     }
 
-    public void altaReserva (Cliente cliente, Vuelo vuelo){
-        reservas.add(new Reserva(cliente, vuelo));
+    public void altaReserva (Cliente cliente, Vuelo vuelo, int idReserva){
+        reservas.add(new Reserva(cliente, vuelo, idReserva));
+    }
+
+    public void altaReserva (Reserva r){
+        reservas.add(r);
+    }
+
+    public void bajaReserva (int idReserva){
+        reservas.remove(buscaReserva(idReserva));
+    }
+    public Reserva buscaReserva(int id) {
+        Reserva r = new Reserva();
+        r= null;
+        for (var reserva: reservas) {
+            if(reserva.getIdReserva() == id) {
+                r = reserva;
+            }
+        }return r;
     }
     public void muestraReservas() {
         for (var reserva: reservas) {
@@ -388,6 +408,18 @@ public class Aerotaxi {
             System.out.println(reserva);
         }
     }
+    public boolean validaReservas (){
+        Boolean rta=true;
+        if( reservas.isEmpty()){
+            rta= false;
+            }
+
+            return rta;
+        }
+    public int ultimoIdReservas (){
+        return reservas.size();
+    }
+
 
     public ArrayList<Avion> getAviones() {
         return aviones;
@@ -395,6 +427,14 @@ public class Aerotaxi {
 
     public void setAviones(ArrayList<Avion> aviones) {
         this.aviones = aviones;
+    }
+
+    public ArrayList<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(ArrayList<Reserva> reservas) {
+        this.reservas = reservas;
     }
 }
 

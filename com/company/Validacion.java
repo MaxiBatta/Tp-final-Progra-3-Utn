@@ -82,13 +82,14 @@ public class Validacion {
         if (fechaActual.isAfter(fechaLd)) {
             throw new Exception("Fecha no puede ser anterior a la actual");
         }
-        if (fechaLd.getYear() != 2021) {
+        if (fechaLd.isAfter(fechaActual.plusMonths(6))) {
             throw new Exception("Todavia no hay vuelos programados para esa fecha");
         }
 
         return true;
 
     }
+
 
     // Para Dni
     public  boolean validaDni(int dni) throws Exception {
@@ -115,6 +116,23 @@ public class Validacion {
         }
 
         return true;
+    }
+
+    public  boolean validaIdReserva1(ArrayList<Reserva> reservas , int id) throws Exception {
+            for (Reserva reserva : reservas)
+            if (reservas.contains(id)) {
+                throw new Exception("El nro de reserva no es valida");
+            }
+
+        return true;
+    }
+
+    public  void validaIdReserva(ArrayList<Reserva> reservas , int id)  {
+
+            if (reservas.get(id)== null) {
+                System.out.println("El nro de reserva no es valida");
+            }
+
     }
 
 }

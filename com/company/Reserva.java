@@ -1,8 +1,9 @@
 package com.company;
 
 public class Reserva {
+
+    private static int cont;
     private Cliente cliente;
-    private static int cont = 0;
     private int idReserva;
     private Vuelo vuelo;
 
@@ -14,10 +15,10 @@ public class Reserva {
 
 
 
-    public Reserva(Cliente cliente, Vuelo vuelo) {
+    public Reserva(Cliente cliente, Vuelo vuelo, int idReserva) {
         this.cliente = cliente;
         this.vuelo = vuelo;
-        this.idReserva = ++cont;
+        this.idReserva = idReserva;
     }
 
     public Cliente getCliente() {
@@ -37,13 +38,7 @@ public class Reserva {
     }
 
 
-    public static int getCont() {
-        return cont;
-    }
 
-    public static void setCont(int cont) {
-        Reserva.cont = cont;
-    }
 
     @Override
     public String toString() {
@@ -53,5 +48,14 @@ public class Reserva {
                 "\nCliente: " + this.cliente.toString() +
                 "\nVuelo: " + this.vuelo.toString();
 
+    }
+
+
+    public int getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(int idReserva) {
+        this.idReserva = idReserva;
     }
 }

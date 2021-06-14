@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 
 public class Menu {
@@ -41,6 +42,9 @@ public class Menu {
 
                         sistema.guardarClientes();
                         sistema.guardarRutas();
+                        sistema.guardarAviones();
+
+
 
 
 
@@ -79,19 +83,17 @@ public class Menu {
                 switch (opcion) {
                     case 1:
                         menuClienteRegistrado();
-
+                        pausa.nextLine();
 
                         break;
                     case 2:
                         menuRegistraCliente();
-
+                        pausa.nextLine();
 
 
                         break;
 
                     case 3:
-                        System.out.println("enter para volver a menu anterior");
-                        pausa.nextLine();
                         salir = true;
 
                         break;
@@ -136,11 +138,12 @@ public class Menu {
                 System.out.println("Ingrese su dni: ");
                 dni = pausa.nextInt();
                 valida.validaDni(dni);
+                pausa.nextLine();
                 System.out.println("Ingrese un Usuario: ");
-                usuario = pausa.next();
+                usuario = pausa.nextLine();
                 valida.validaLetrasYnumeros(usuario);
                 System.out.println("Ingrese su password: ");
-                password = pausa.next();
+                password = pausa.nextLine();
                 valida.validaLetrasYnumeros(password);
 
                 if (sistema.buscarCliente(dni) == -1) {
@@ -161,7 +164,7 @@ public class Menu {
 
             }
 
-        System.out.println("Desea salir del menu de registracion? s/n");
+        System.out.println("Sus datos son correctos? s/n");
         opcion = pausa.nextLine();
     } while(!(opcion.equals("s")));
 
@@ -174,9 +177,9 @@ public class Menu {
             pausa.reset();
             sistema.muestraClientes();
             System.out.println("Ingrese Usuario:");
-            usuario = pausa.next();
+            usuario = pausa.nextLine();
             System.out.println("Ingrese Password");
-            password = pausa.next();
+            password = pausa.nextLine();
             System.out.println("Ingrese su dni");
             pausa.reset();
             dnii= pausa.nextInt();
@@ -200,12 +203,16 @@ public class Menu {
             pausa.nextLine();
         }
         pausa.reset();
+        pausa.nextLine();
     }
 
     private void menuCliente (int dni) {
         Cliente cliente = sistema.buscarCliente1(dni);
         int opcion;
         boolean continuar = true;
+        String rta;
+        int id;
+
 
 
         do {
@@ -226,18 +233,51 @@ public class Menu {
 
                         break;
                     case 2:
+                        System.out.println("Ingrese nro de Id de reserva a cancelar");
+                        id= pausa.nextInt();
 
+                        Reserva reservaCancela = sistema.buscaReserva(id);
+                        System.out.println(reservaCancela);
+                        System.out.println("\nDesea cancelar esta reserva? S/N");
+                        rta= pausa.nextLine();
+                        if (rta.equals("s")) {
+
+                        String fechaReserva= reservaCancela.getVuelo().getFecha();
+                        LocalDate fechaLd= LocalDate.parse(fechaReserva,DateTimeFormatter.ofPattern("d/MM/y"));
+
+
+                        if (reservaCancela != null) {
+
+                            if(fechaLd.isBefore(fechaLd.minusDays(1))){
+                                System.out.println("No se puede cancelar un vuelo con menos de 24hs de anticipacion");
+                            }else{
+                            sistema.bajaReserva(id);
+                            System.out.println("La reserva se ha cancelado con exito");
+                            sistema.guardarReservas();
+                            pausa.nextLine();}
+                        }else {
+                            System.out.println("El id de reserva ingresado no existe");
+                            pausa.nextLine();
+                        }}
+                        pausa.nextLine();
                         break;
                     case 3:
-
+                        System.out.println("p");
                         break;
 
                     case 4:
-
+                        if(sistema.validaReservas()) {
+                            sistema.muestraReservas(dni);
+                            pausa.nextLine();
+                        }else {
+                            System.out.println("No hay reservas");
+                            pausa.nextLine();
+                        }
+                        pausa.nextLine();
                         break;
                     case 5:
                         System.out.println("enter para volver a menu anterior");
-                        pausa.nextLine();
+
                         continuar = false;
                         break;
                     default:
@@ -252,7 +292,7 @@ public class Menu {
             }
 
         } while (continuar);
-
+        pausa.nextLine();
     }
 
     private void menuAltaReserva (int dni) {
@@ -265,9 +305,9 @@ public class Menu {
         String opcion;
         Cliente cliente = sistema.buscarCliente1(dni);
 
-        sistema.cargarReservas();
-        sistema.guardarVuelos();
+
         try {
+
             System.out.println("Ingrese fecha de vuelo para reserva (dd/mm/yyyy)");
             fecha  = pausa.next();
             valida.validaFechaFormato(fecha);
@@ -283,33 +323,28 @@ public class Menu {
             System.out.println("Ingrese Id ruta elegida");
             idRuta= pausa.nextInt();
 
-            /*System.out.println("Ingrese Ciudad de origen");
-            origen = pausa.nextLine();
-            pausa.reset();
-            System.out.println("Ingrese Ciudad de destino");
-            destino = pausa.nextLine();
-            pausa.reset();
-            valida.validaOrigenDestino(origen, destino);
-            */
             Ruta ruta = sistema.buscaRutaId(idRuta);
             System.out.println(ruta);
             System.out.println("\n-----------------------------\n");
             System.out.println("Aviones disponibles");
-            System.out.println("\n-----------------------------");
-
+            System.out.println("\n-----------------------------\n");
+            
+            System.out.println(fecha +fechaLd);
+            pausa.nextLine();
             sistema.muestraAvionesDisponiblesPorFecha(fecha);
-            pausa.reset();
-            //System.out.println("destino " + destino);
-            //System.out.println("origen " + origen);
+
+
             System.out.println("Elija un avion disponible por nro de ID");
             idAvion = pausa.nextInt();
             Avion avion= sistema.buscaAvion1(idAvion);
-            System.out.println(avion.getFechasDisponibles());
+            avion.muestraFechasDisponibles();
+
             Vuelo vuelo= new Vuelo(fecha,ruta,pasajeros,avion);
 
 
                 if (pasajeros < avion.getCapacidadPasajeros()){
                     sistema.altaVuelo(vuelo);
+                    sistema.guardarVuelos();
                     System.out.println(vuelo);
                 } else{
                 System.out.println("NO tenemos aviones con esa capacidad de pasajeros");
@@ -320,15 +355,19 @@ public class Menu {
             opcion = pausa.nextLine();
             if (opcion.equals("s")) {
                 System.out.println("Reserva exitosa");
-                Reserva reservaActual = new Reserva(cliente, vuelo);
+                Reserva reservaActual = new Reserva(cliente, vuelo, sistema.ultimoIdReservas()+1);
                 System.out.println  (reservaActual);
                 System.out.println("---------------");
 
                 avion.removeFechasDisponibles(fecha);
                 System.out.println(avion.getFechasDisponibles());
-                sistema.altaReserva(cliente, vuelo);
-                sistema.guardarVuelos();
+                sistema.guardarAviones();
+                sistema.altaReserva(reservaActual);
+
                 sistema.guardarReservas();
+                sistema.cargarReservas();
+                sistema.cargarVuelos();
+                sistema.cargarAviones();
 
 
             }else{
@@ -344,6 +383,7 @@ public class Menu {
             pausa.nextLine();
         }
         pausa.reset();
+        pausa.nextLine();
 
     }
 
@@ -364,8 +404,9 @@ public class Menu {
                 System.out.println("2. Listado de reservas por fecha");
                 System.out.println("3. Listado de reservas por cliente");
                 System.out.println("4. Listado completo de reservas");
+                System.out.println("5. Ficha tecnica aviones");
 
-                System.out.println("5. Menu anterior");
+                System.out.println("6. Menu anterior");
 
                 try {
                     System.out.println("Escribe una de las opciones");
@@ -395,6 +436,18 @@ public class Menu {
 
                             break;
                         case 5:
+                            Gold avionGold = new Gold();
+                            Silver avionSilver = new Silver();
+                            Bronze avionBronze = new Bronze();
+                            avionGold.serviceAvion();
+                            avionSilver.serviceAvion();
+                            avionBronze.serviceAvion();
+                            pausa.nextLine();
+
+
+
+                            break;
+                        case 6:
                             salir = true;
                             System.out.println("Enter para volver a menu anterior");
 

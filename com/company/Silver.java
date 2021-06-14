@@ -1,6 +1,6 @@
 package com.company;
 
-public class Silver extends Avion {
+public class Silver extends Avion implements ServiceAvion {
 
     private String catering ="Estandar";
 
@@ -39,5 +39,15 @@ public class Silver extends Avion {
                 "\n-----------------------------" +
                  "\n-----------------------------" +
                 "\n";
+    }
+
+    @Override
+    public void serviceAvion() {
+        System.out.println("\n\nTabla de Service Aviones Silver:");
+        System.out.println("Origen: Noruega");
+        System.out.println("Fecha de fabricacion: 2015");
+        System.out.println("Service cada 35 horas/vuelo");
+        System.out.println("---------------------------");
+
     }
 }

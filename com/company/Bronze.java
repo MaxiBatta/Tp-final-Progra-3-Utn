@@ -1,6 +1,6 @@
 package com.company;
 
-public class Bronze extends Avion{
+public class Bronze extends Avion implements ServiceAvion{
 
     public Bronze() {
     }
@@ -19,5 +19,14 @@ public class Bronze extends Avion{
                "\n-----------------------------" +
                "\n-----------------------------" +
                 "\n";
+    }
+
+    @Override
+    public void serviceAvion() {
+        System.out.println("\n\nTabla de Service Aviones Bronze");
+        System.out.println("Origen: China");
+        System.out.println("Fecha de fabricacion: 2012");
+        System.out.println("Service cada 20 horas/vuelo");
+        System.out.println("---------------------------");
     }
 }
