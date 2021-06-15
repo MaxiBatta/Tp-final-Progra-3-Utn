@@ -47,12 +47,17 @@ public class Validacion {
     // nombres y apellidos
     public  boolean validaNombreApellido (String string) throws Exception {
 
-            if (!soloLetra(string))
-                throw new Exception("Debe ingresar solo caracteres alfabeticos");
 
-            if (string.length() < 3)
-                throw new Exception("Debe ingresar al menos 4 caracteres");
+        if (!soloLetra(string) || string.length() < 3)
+            throw new Exception("Debe ingresar solo caracteres alfabeticos y como minimo 4 caracteres");
 
+        return true;
+    }
+    public  boolean validaUsuarioPassword (String string) throws Exception {
+
+
+        if (string.length() < 3)
+            throw new Exception("Debe ingresar como minimo 4 caracteres");
 
         return true;
     }
@@ -65,10 +70,9 @@ public class Validacion {
 
         if (edad < 18 || edad > 99)
             throw new Exception("Edad no permitida");
-
         return true;
-
     }
+
     public  boolean validaFechaFormato(String fecha) throws Exception {
 
         if (fecha.length() != 10)
@@ -79,12 +83,12 @@ public class Validacion {
     }
     public  boolean validaFecha( LocalDate fechaLd) throws Exception {
         LocalDate fechaActual = LocalDate.now();
-        if (fechaActual.isAfter(fechaLd)) {
+        if (fechaActual.isAfter(fechaLd))
             throw new Exception("Fecha no puede ser anterior a la actual");
-        }
-        if (fechaLd.isAfter(fechaActual.plusMonths(6))) {
+
+        if (fechaLd.isAfter(fechaActual.plusMonths(6)))
             throw new Exception("Todavia no hay vuelos programados para esa fecha");
-        }
+
 
         return true;
 
@@ -94,7 +98,7 @@ public class Validacion {
     // Para Dni
     public  boolean validaDni(int dni) throws Exception {
         if (String.valueOf(dni).length() != 8)
-            throw new Exception("Dni incorrecto");
+            throw new Exception("Dni Formato incorrecto");
 
         return true;
 

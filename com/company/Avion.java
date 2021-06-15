@@ -3,12 +3,13 @@ package com.company;
 
 
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Formatter;
 
-public  class Avion {
+public  class Avion implements Serializable {
 
     private int combustible;
     private float costoKm;
@@ -132,6 +133,20 @@ public  class Avion {
         avion.getFechasDisponibles().add(fecha);
     }
 
+
+    public ArrayList<String> getFechasDisponibles() {
+        return fechasDisponibles;
+    }
+
+    public void setFechasDisponibles(ArrayList<String> fechasDisponibles) {
+        this.fechasDisponibles = fechasDisponibles;
+    }
+    public void muestraFechasDisponibles(){
+        for (String fecha: fechasDisponibles){
+            System.out.println(fecha);
+        }
+    }
+
     @Override
     public String toString() {
         if (disponibilidad) {
@@ -156,17 +171,5 @@ public  class Avion {
     }
 
 
-    public ArrayList<String> getFechasDisponibles() {
-        return fechasDisponibles;
-    }
-
-    public void setFechasDisponibles(ArrayList<String> fechasDisponibles) {
-        this.fechasDisponibles = fechasDisponibles;
-    }
-    public void muestraFechasDisponibles(){
-        for (String fecha: fechasDisponibles){
-            System.out.println(fecha);
-        }
-    }
 
 }

@@ -29,7 +29,11 @@ public class Menu {
                 opcion = scan.nextInt();
                 switch (opcion) {
                     case 1:
-                        
+
+                        sistema.muestraAviones();
+
+                        System.out.println("-----------\n");
+
                         menuReserva();
                         pausa.nextLine();
                         break;
@@ -132,28 +136,28 @@ public class Menu {
                 pausa.reset();
                 System.out.println("Ingrese su nombre: ");
                 nombre = pausa.nextLine();
-                valida.validaNombreApellido(nombre);
-                System.out.println("Ingrese su apellido: ");
-                apellido = pausa.nextLine();
-                valida.validaNombreApellido(apellido);
-                System.out.println("Ingrese su edad: ");
-                edad = pausa.nextInt();
-                valida.validaEdad(edad);
-                System.out.println("Ingrese su dni: ");
-                dni = pausa.nextInt();
+               valida.validaNombreApellido(nombre);
+               System.out.println("Ingrese su apellido: ");
+               apellido = pausa.nextLine();
+               valida.validaNombreApellido(apellido);
+               System.out.println("Ingrese su edad: ");
+               edad = pausa.nextInt();
+               valida.validaEdad(edad);
+               System.out.println("Ingrese su dni: ");
+               dni = pausa.nextInt();
                 valida.validaDni(dni);
                 pausa.nextLine();
                 System.out.println("Ingrese un Usuario: ");
                 usuario = pausa.nextLine();
                 valida.validaLetrasYnumeros(usuario);
+                valida.validaUsuarioPassword(usuario);
                 System.out.println("Ingrese su password: ");
                 password = pausa.nextLine();
                 valida.validaLetrasYnumeros(password);
+                valida.validaUsuarioPassword(password);
 
                 if (sistema.buscarCliente(dni) == -1) {
-                    sistema.altaCliente(nombre, apellido, usuario, password, edad, dni);
-                    System.out.println("Registracion exitosa");
-                    sistema.muestraClientes();
+                    menuConfirmaDatospersonales(nombre,apellido,usuario,password, edad, dni);
                 } else {
                     System.out.println("Este DNI ya se encuentra registrado en el sistema");
                 }
@@ -168,11 +172,48 @@ public class Menu {
 
             }
 
-        System.out.println("Sus datos son correctos? s/n");
+        System.out.println("Desea continuar con el proceso de registracion? s/n");
         opcion = pausa.nextLine();
-    } while(!(opcion.equals("s")));
+
+    } while((opcion.equals("s")));
+        pausa.nextLine();
+    }
+    public void menuConfirmaDatospersonales(String nombre,String apellido,String usuario,String password,int edad, int dni) {
+        boolean salir = false;
+        int opcion;
+        do {
+            System.out.println("\nDesea confirmar los datos registrados?\n");
+            System.out.println("1. Confirmar");
+            System.out.println("2. Salir");
+            try {
+
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        sistema.altaCliente(nombre, apellido, usuario, password, edad, dni);
+                        System.out.println("Registracion exitosa");
+                        System.out.println(sistema.buscarCliente1(dni));
+
+                        salir = true;
+                        break;
+                    case 2:
+                        salir = true;
+
+                        break;
+                    default:
+                        System.out.println("Solo opciones entre 1 y 2");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Debes ingresar valores enteros");
+                scan.next();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                pausa.nextLine();
+            }
+        } while (!salir);
 
     }
+
     private void menuClienteRegistrado()  {
         int dnii;
         String usuario;

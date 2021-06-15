@@ -244,12 +244,21 @@ public class AeroTaxi {
     }
 
     public void altaAvion() {
-        aviones.add(new Gold(10000, 300, 25, 600, Propulsion.Reaccion, true));
-        aviones.add(new Gold(15000, 280, 20, 500, Propulsion.Reaccion, false));
-        aviones.add(new Silver(9000, 250,20,500,Propulsion.Pistones));
-        aviones.add(new Silver(8000, 280, 20, 500, Propulsion.Reaccion));
-        aviones.add(new Bronze(9000, 180, 30, 400, Propulsion.Helice));
-        aviones.add(new Bronze(5000, 150, 10, 450, Propulsion.Helice));
+        Gold avg1= new Gold(10000, 300, 25, 600, Propulsion.Reaccion, true);
+        Gold avg2= new Gold(15000, 280, 20, 500, Propulsion.Reaccion, false);
+        Silver avs1= new Silver(9000, 250,20,500,Propulsion.Pistones);
+        Silver avs2= new Silver(8000, 280, 20, 500, Propulsion.Reaccion);
+        Bronze avb1= new Bronze(9000, 180, 30, 400, Propulsion.Helice);
+        Bronze avb2= new Bronze(5000, 150, 10, 450, Propulsion.Helice);
+
+        aviones.add(avg1);
+        aviones.add(avg2);
+        aviones.add(avs1);
+        aviones.add(avs2);
+        aviones.add(avb1);
+        aviones.add(avb2);
+
+
        aviones.get(0).cargaFechasDisponibles("14/06/2021");
        aviones.get(1).cargaFechasDisponibles("14/06/2021");
        aviones.get(2).cargaFechasDisponibles("14/06/2021");
@@ -257,13 +266,26 @@ public class AeroTaxi {
        aviones.get(4).cargaFechasDisponibles("14/06/2021");
        aviones.get(5).cargaFechasDisponibles("14/06/2021");
 
+
     }
 
 
     public void muestraAviones() {
-        for (Avion avion : aviones) {
-            System.out.println(avion);
+        for (Avion e : aviones) {
+            if (e instanceof Gold)
+            System.out.println((Gold)e);
+            if (e instanceof Silver)
+                System.out.println((Silver)e);
+            if (e instanceof Bronze)
+                System.out.println((Bronze)e);
+
             }
+    }
+
+    public void muestraAvionesx() {
+        for (Avion a : aviones) {
+            System.out.println(a);
+        }
     }
 
     public void muestraAvionesDisponiblesPorFecha(String fecha) {

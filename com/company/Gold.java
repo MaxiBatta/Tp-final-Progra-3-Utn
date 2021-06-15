@@ -1,6 +1,8 @@
 package com.company;
 
-public class Gold extends Avion implements ServiceAvion{
+import java.io.Serializable;
+
+public class Gold extends Avion implements ServiceAvion, Serializable {
 
     private String catering ="Premiun";
     private boolean wifi;
