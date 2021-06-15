@@ -1,15 +1,14 @@
 package com.company;
 
 
-
-
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Formatter;
 
-public  class Avion implements Serializable {
+
+public  class Avion  {
+public static final String ANSI_BLUE = "\u001B[34m";
+public static final String ANSI_RESET = "\u001B[0m";
 
     private int combustible;
     private float costoKm;
@@ -21,6 +20,9 @@ public  class Avion implements Serializable {
     private boolean disponibilidad;
     private int tarifaFija =0;
     private ArrayList<String> fechasDisponibles = new ArrayList<>();
+    protected String catering ="";
+    protected boolean wifi= false;
+    private String catAvion= "";
 
 
 
@@ -28,17 +30,18 @@ public  class Avion implements Serializable {
     public Avion() {
     }
 
-
-
-    public Avion(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion) {
+    public Avion(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion, boolean disponibilidad, int tarifaFija, String catering, boolean wifi, String catAvion) {
         this.combustible = combustible;
         this.costoKm = costoKm;
         this.capacidadPasajeros = capacidadPasajeros;
         this.velocidadMax = velocidadMax;
         this.propulsion = propulsion;
-        this.idAvion = ++cont;
-        this.disponibilidad = true;
-
+        this.disponibilidad = disponibilidad;
+        this.tarifaFija = tarifaFija;
+        this.catering = catering;
+        this.wifi = wifi;
+        this.idAvion= ++cont;
+        this.catAvion= catAvion;
     }
 
 
@@ -106,6 +109,7 @@ public  class Avion implements Serializable {
         this.disponibilidad = disponibilidad;
     }
 
+    //Fx que carga fechas en un arreglo String
     public void cargaFechasDisponibles (String fecha){
         LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
         for (int i= 0; i<200; i++) {
@@ -150,16 +154,34 @@ public  class Avion implements Serializable {
     @Override
     public String toString() {
         if (disponibilidad) {
-            return  "\nCombustible: " + this.combustible +
-                    "\nCosto Km: " + this.costoKm +
-                    "\nCapacidad de Pasajeros: " + this.capacidadPasajeros +
-                    "\nVelocidad Maxima: " + this.velocidadMax +
-                    "\nID de Avion: " + this.idAvion +
-                    "\nUNIDAD DISPONIBLE " ;
+            if (wifi) {
+                return  (ANSI_BLUE + "\n\tAvion " + this.catAvion +ANSI_RESET) +
+                        "\nCatering: " + this.catering +
+                        "\nWifi: SI" +
+                        "\nCombustible: " + this.combustible +
+                        "\nCosto Km: " + this.costoKm +
+                        "\nCapacidad de Pasajeros: " + this.capacidadPasajeros +
+                        "\nVelocidad Maxima: " + this.velocidadMax +
+                        "\nID de Avion: " + this.idAvion +
+                        "\nUNIDAD DISPONIBLE ";
 
+                    }else{
+                return (ANSI_BLUE + "\n\tAvion " + this.catAvion +ANSI_RESET) +
+                        "\nCatering: " + this.catering +
+                        "\nWifi: NO" +
+                        "\nCombustible: " + this.combustible +
+                        "\nCosto Km: " + this.costoKm +
+                        "\nCapacidad de Pasajeros: " + this.capacidadPasajeros +
+                        "\nVelocidad Maxima: " + this.velocidadMax +
+                        "\nID de Avion: " + this.idAvion +
+                        "\nUNIDAD DISPONIBLE ";
+            }
 
         }else{
-            return "\nCombustible: " + this.combustible +
+            return (ANSI_BLUE + "\n\tAvion " + this.catAvion +ANSI_RESET) +
+                    "\nCatering: " + this.catering +
+                    "\nWifi: NO" +
+                    "\nCombustible: " + this.combustible +
                     "\nCosto Km: " + this.costoKm +
                     "\nCapacidad de Pasajeros: " + this.capacidadPasajeros +
                     "\nVelocidad Maxima: " + this.velocidadMax +

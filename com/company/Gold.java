@@ -1,27 +1,29 @@
 package com.company;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Gold extends Avion implements ServiceAvion, Serializable {
 
-    private String catering ="Premiun";
-    private boolean wifi;
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
     public Gold() {
     }
 
-    public Gold(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion, boolean wifi) {
-        super(combustible, costoKm, capacidadPasajeros, velocidadMax, propulsion);
-        this.catering = catering;
-        this.wifi = wifi;
-        this.setTarifaFija(6000);
-    }
+
 
     public Gold(String catering, boolean wifi) {
         this.catering = catering;
         this.wifi = wifi;
     }
 
+    public Gold(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion, boolean disponibilidad, int tarifaFija, String catering, boolean wifi, String catAvion) {
+        super(combustible, costoKm, capacidadPasajeros, velocidadMax, propulsion, disponibilidad, tarifaFija, catering, wifi, catAvion);
+    }
 
 
     public String getCatering() {
@@ -64,11 +66,11 @@ public class Gold extends Avion implements ServiceAvion, Serializable {
 
     @Override
     public void serviceAvion() {
-        System.out.println("\n\nTabla de Service Aviones Gold:");
+        System.out.println(ANSI_GREEN+ "\n\nTabla de Service Aviones Gold:");
         System.out.println("Origen: Alemania");
         System.out.println("Fecha de fabricacion: 2018");
         System.out.println("Service cada 50 horas/vuelo");
-        System.out.println("---------------------------");
+        System.out.println("---------------------------" + ANSI_RESET);
 
 
     }

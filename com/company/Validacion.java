@@ -11,13 +11,14 @@ public class Validacion {
     public Validacion() {
     }
 
-    public  boolean validaLetrasYnumeros(String string) {
+    public  int validaLetrasYnumeros(String string) {
+        int flag=0;
         for (int i = 0; i < string.length(); i++) {
             if (!Character.isDigit(string.charAt(i)) && !Character.isLetter(string.charAt(i)))
-                return false;
+                flag=1;
         }
 
-        return true;
+        return flag;
     }
 
     public  boolean validaUnNumero(String string) {
@@ -45,32 +46,36 @@ public class Validacion {
         }
 
     // nombres y apellidos
-    public  boolean validaNombreApellido (String string) throws Exception {
+    public  int validaNombreApellido (String string)  {
+            int flag=0;
 
-
-        if (!soloLetra(string) || string.length() < 3)
-            throw new Exception("Debe ingresar solo caracteres alfabeticos y como minimo 4 caracteres");
-
-        return true;
+        if (!soloLetra(string) || string.length() < 3) {
+            System.out.println("Debe ingresar solo caracteres alfabeticos y como minimo 4 caracteres");
+            flag = 1;
+        }
+        return flag;
     }
-    public  boolean validaUsuarioPassword (String string) throws Exception {
+    public  int validaUsuarioPassword (String string) {
+        int flag=0;
 
-
-        if (string.length() < 3)
-            throw new Exception("Debe ingresar como minimo 4 caracteres");
-
-        return true;
+        if (string.length() < 3) {
+            System.out.println("Debe ingresar como minimo 4 caracteres");
+            flag=1;
+        }
+        return flag;
     }
 
 
 
 
     // Para Edad
-    public  boolean validaEdad(int edad) throws Exception {
-
-        if (edad < 18 || edad > 99)
-            throw new Exception("Edad no permitida");
-        return true;
+    public  int validaEdad(int edad)  {
+        int flag=0;
+        if (edad < 18 || edad > 99) {
+            System.out.println("Edad no permitida");
+            flag = 1;
+        }
+        return flag;
     }
 
     public  boolean validaFechaFormato(String fecha) throws Exception {
@@ -96,11 +101,13 @@ public class Validacion {
 
 
     // Para Dni
-    public  boolean validaDni(int dni) throws Exception {
-        if (String.valueOf(dni).length() != 8)
-            throw new Exception("Dni Formato incorrecto");
-
-        return true;
+    public  int validaDni(int dni)  {
+        int flag=0;
+        if (String.valueOf(dni).length() != 8) {
+            System.out.println("Dni Formato incorrecto");
+            flag = 1;
+        }
+        return flag;
 
     }
 
@@ -113,10 +120,10 @@ public class Validacion {
         return true;
     }
 
-    public  boolean validaCantAcompañantes(ArrayList<Avion> aviones , int cant) throws Exception {
-        for (Avion avion : aviones)
-        if (cant > avion.getCapacidadPasajeros()) {
-            throw new Exception("No tenemos aviones disponibles con esa capacidad de pasajeros");
+    public  boolean validaCantAcompañantes(int cantMax , int cant) throws Exception {
+
+        if (cant > cantMax) {
+            throw new Exception("No tenemos aviones disponibles con esa capacidad/Capacidad maxima: 30 pasajeros según disponibilidad por fecha ");
         }
 
         return true;
@@ -138,5 +145,9 @@ public class Validacion {
             }
 
     }
+
+
+
+
 
 }

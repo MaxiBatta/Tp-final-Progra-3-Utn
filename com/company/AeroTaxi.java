@@ -9,6 +9,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AeroTaxi {
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_RESET = "\u001B[0m";
+
 
     private File archivoClientes = new File("Clientes.json");
     private File archivoAviones = new File("Aviones.json");
@@ -221,7 +227,7 @@ public class AeroTaxi {
         return clientes.get(pos);
     }
 
-    public Cliente buscarCliente(String usuario, String password, int dni)throws Exception{
+    public Cliente buscarCliente(String usuario, String password, int dni){
 
         int pos = -1;
         for (int i = 0; i < clientes.size(); i++) {
@@ -230,9 +236,29 @@ public class AeroTaxi {
             }
         }
         if (pos==-1)
-            throw new Exception("Cliente no registrado, debe registrarse en opcion Nuevo Cliente");
+            System.out.println("Cliente no validado");
 
         return clientes.get(pos);
+    }
+    public int validaDniExiste (int dni){
+        int flag=0;
+        for (Cliente c : clientes){
+            if (c.getDni()== dni){
+                System.out.println(ANSI_RED+"El DNI ingresado ya se encuentra registrado como cliente");
+                flag=1;
+            }
+        }
+        return flag;
+    }
+    public int validaDniExiste1 (int dni){
+        int flag=0;
+        for (Cliente c : clientes){
+            if (c.getDni()== dni){
+
+                flag=1;
+            }
+        }
+        return flag;
     }
 
 
@@ -244,12 +270,12 @@ public class AeroTaxi {
     }
 
     public void altaAvion() {
-        Gold avg1= new Gold(10000, 300, 25, 600, Propulsion.Reaccion, true);
-        Gold avg2= new Gold(15000, 280, 20, 500, Propulsion.Reaccion, false);
-        Silver avs1= new Silver(9000, 250,20,500,Propulsion.Pistones);
-        Silver avs2= new Silver(8000, 280, 20, 500, Propulsion.Reaccion);
-        Bronze avb1= new Bronze(9000, 180, 30, 400, Propulsion.Helice);
-        Bronze avb2= new Bronze(5000, 150, 10, 450, Propulsion.Helice);
+        Gold avg1= new Gold(10000, 300, 25, 600, Propulsion.Reaccion, true,6000,"Premium",true, "GOLD");
+        Gold avg2= new Gold(15000, 280, 20, 500, Propulsion.Reaccion,true,6000,"Premium", false, "GOLD");
+        Silver avs1= new Silver(9000, 250,20,500,Propulsion.Pistones,true,4000,"Basico",false, "SILVER");
+        Silver avs2= new Silver(8000, 280, 20, 500, Propulsion.Reaccion, true,4000,"Basico",false, "SILVER");
+        Bronze avb1= new Bronze(9000, 180, 30, 400, Propulsion.Helice,true,3000,"NO",false,"BRONZE");
+        Bronze avb2= new Bronze(5000, 150, 10, 450, Propulsion.Helice,true,3000,"NO",false, "BRONZE");
 
         aviones.add(avg1);
         aviones.add(avg2);
@@ -288,12 +314,12 @@ public class AeroTaxi {
         }
     }
 
-    public void muestraAvionesDisponiblesPorFecha(String fecha) {
+    public void muestraAvionesDisponiblesPorFecha(String fecha, int pasajeros) {
         Boolean dispo=false;
         LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
         fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
         for (var avion : aviones) {
-            if (avion.getFechasDisponibles().contains(fecha) && avion.isDisponibilidad()) {
+            if (avion.getFechasDisponibles().contains(fecha) && avion.isDisponibilidad()&& avion.getCapacidadPasajeros()>= pasajeros) {
                 System.out.println( avion );
                 dispo=true;
             }
@@ -443,6 +469,22 @@ public class AeroTaxi {
             System.out.println(reserva);
         }
     }
+    public void muestraReservasFecha(String fecha) {
+        LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
+        fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
+        int flag=0;
+        for (Reserva r: reservas) {
+            if(r.getVuelo().getFecha().equals(fecha)) {
+                System.out.println(r.toString());
+                flag=1 ;
+            }
+        }
+        if (flag==0) {
+            System.out.println(ANSI_RED + "No hay reservas para esa fecha" + ANSI_RESET);
+        }
+
+    }
+
     public boolean validaReservas (){
         Boolean rta=true;
         if( reservas.isEmpty()){
@@ -451,6 +493,15 @@ public class AeroTaxi {
 
             return rta;
         }
+
+    public  int validaReservaDni(int dni)  {
+        int flag=0;
+        for (Reserva r: reservas)
+            if (r.getCliente().getDni()==dni){
+                flag=1;
+            }
+        return flag;
+    }
     public int ultimoIdReservas (){
         return reservas.size();
     }

@@ -7,7 +7,10 @@ public class Reserva {
     private int idReserva;
     private Vuelo vuelo;
 
-
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
 
     public Reserva() {
@@ -44,7 +47,7 @@ public class Reserva {
     public String toString() {
         return "-----------------------------------" +
                 "\nReserva " +
-                "\nReserva Id: " + this.idReserva +
+                (ANSI_GREEN + "\nReserva Id: " + this.idReserva + ANSI_RESET) +
                 "\nCliente: " + this.cliente.toString() +
                 "\nVuelo: " + this.vuelo.toString();
 
