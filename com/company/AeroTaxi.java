@@ -259,18 +259,20 @@ public class AeroTaxi {
 
     }
 
+
     public void muestraAviones() {
-        for (var avion : aviones) {
+        for (Avion avion : aviones) {
             System.out.println(avion);
-        }
+            }
     }
+
     public void muestraAvionesDisponiblesPorFecha(String fecha) {
         Boolean dispo=false;
         LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
         fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
-        for (Avion avion : aviones) {
+        for (var avion : aviones) {
             if (avion.getFechasDisponibles().contains(fecha) && avion.isDisponibilidad()) {
-                System.out.println(avion );
+                System.out.println( avion );
                 dispo=true;
             }
         }
@@ -388,14 +390,25 @@ public class AeroTaxi {
     public void bajaReserva (int idReserva){
         reservas.remove(buscaReserva(idReserva));
     }
+
+
     public Reserva buscaReserva(int id) {
         Reserva r = new Reserva();
         r= null;
-        for (var reserva: reservas) {
-            if(reserva.getIdReserva() == id) {
-                r = reserva;
+        try {
+
+            for (var reserva : reservas) {
+                if (reserva.getIdReserva() == id) {
+                    r = reserva;
+                }
             }
-        }return r;
+
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("Nro elegido invalido");
+        }catch (Exception e){
+            System.out.println("error" + e.getMessage() );
+        }
+        return r;
     }
     public void muestraReservas() {
         for (var reserva: reservas) {

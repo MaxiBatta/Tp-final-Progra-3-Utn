@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Formatter;
 
-public class Avion {
+public  class Avion {
 
     private int combustible;
     private float costoKm;
@@ -114,6 +114,8 @@ public class Avion {
        }
     }
 
+
+
     public void removeFechasDisponibles (String fecha){
         LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
         fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
@@ -122,6 +124,12 @@ public class Avion {
                 fechasDisponibles.remove(i);
             }
         }
+    }
+
+    public void cargaFechaDisponible (Avion avion ,String fecha ){
+        LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
+        fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
+        avion.getFechasDisponibles().add(fecha);
     }
 
     @Override

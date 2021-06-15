@@ -29,6 +29,7 @@ public class Menu {
                 opcion = scan.nextInt();
                 switch (opcion) {
                     case 1:
+                        
                         menuReserva();
                         pausa.nextLine();
                         break;
@@ -239,29 +240,24 @@ public class Menu {
                         System.out.println("Ingrese nro de Id de reserva a cancelar");
                         id= pausa.nextInt();
 
-                        Reserva reservaCancela = sistema.buscaReserva(id);
-                        System.out.println(reservaCancela);
-                        System.out.println("\nDesea cancelar esta reserva? S/N");
-                        rta= pausa.nextLine();
-                        if (rta.equals("s")) {
-
-                        String fechaReserva= reservaCancela.getVuelo().getFecha();
-                        LocalDate fechaLd= LocalDate.parse(fechaReserva,DateTimeFormatter.ofPattern("d/MM/y"));
-
-
-                        if (reservaCancela != null) {
-
-                            if(fechaLd.isBefore(fechaLd.minusDays(1))){
-                                System.out.println("No se puede cancelar un vuelo con menos de 24hs de anticipacion");
-                            }else{
-                            sistema.bajaReserva(id);
-                            System.out.println("La reserva se ha cancelado con exito");
-                            sistema.guardarReservas();
-                            pausa.nextLine();}
+                        if (sistema.buscaReserva(id) != null) {
+                            Reserva reservaCancela = sistema.buscaReserva(id);
+                            System.out.println(reservaCancela);
+                            String fechaReserva= reservaCancela.getVuelo().getFecha();
+                            LocalDate fechaLd= LocalDate.parse(fechaReserva,DateTimeFormatter.ofPattern("d/MM/y"));
+                            LocalDate fechaActual= LocalDate.now();
+                            if (fechaLd.minusDays(1).equals(fechaActual)){
+                                System.out.println("\n\nNo se puede cancelar un vuelo con menos de 24hs de anticipacion\n");
+                                pausa.nextLine();
+                                }else{
+                                menuCancelaReserva(id);
+                                reservaCancela.getVuelo().getAvion().cargaFechaDisponible(reservaCancela.getVuelo().getAvion(),fechaReserva);
+                                sistema.guardarAviones();
+                                }
                         }else {
                             System.out.println("El id de reserva ingresado no existe");
                             pausa.nextLine();
-                        }}
+                        }
                         pausa.nextLine();
                         break;
                     case 3:
@@ -289,8 +285,10 @@ public class Menu {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Debes ingresar numeros enteros");
+                continuar = false;
             }catch (Exception e) {
                 System.out.println(e.getMessage());
+                continuar = false;
                 pausa.nextLine();
             }
 
@@ -332,10 +330,6 @@ public class Menu {
             System.out.println("Aviones disponibles");
 
             System.out.println("\n-----------------------------\n");
-            
-            System.out.println(fecha +fechaLd);
-
-            System.out.println("\n-----------------------------");
 
             sistema.muestraAvionesDisponiblesPorFecha(fecha);
 
@@ -478,6 +472,42 @@ public class Menu {
         {
             System.out.println("Usuario y/o password no validos");
         }
+        pausa.nextLine();
+    }
+
+    public void menuCancelaReserva(int id) {
+        boolean salir = false;
+        int opcion;
+        do {
+            System.out.println("\nDesea confirmar la baja de la reserva?\n");
+            System.out.println("1. Confirmar");
+            System.out.println("2. Volver a menu anterior");
+            try {
+
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        sistema.bajaReserva(id);
+                        System.out.println("La reserva se ha cancelado con exito");
+                        sistema.guardarReservas();
+                        pausa.nextLine();
+                        salir = true;
+                        break;
+                        case 2:
+                        salir = true;
+
+                        break;
+                    default:
+                        System.out.println("Solo opciones entre 1 y 2");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Debes ingresar valores enteros");
+                scan.next();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                pausa.nextLine();
+            }
+        } while (!salir);
         pausa.nextLine();
     }
 
