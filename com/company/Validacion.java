@@ -88,20 +88,23 @@ public class Validacion {
 
     public  boolean validaFechaFormato(String fecha) throws Exception {
 
-        if (fecha.length() != 10)
+        if (fecha.length() != 10) {
             throw new Exception("Fecha/Formato incorrecto/ Ingrese dd/mm/yyyy");
-
+        }
         return true;
 
     }
-    public  boolean validaFecha( LocalDate fechaLd) throws Exception {
+    public  boolean validaFecha( LocalDate fechaLd) throws Exception  {
+
         LocalDate fechaActual = LocalDate.now();
-        if (fechaActual.isAfter(fechaLd))
-            throw new Exception("Fecha no puede ser anterior a la actual");
+        if (fechaActual.isAfter(fechaLd)) {
+            throw  new Exception ("Fecha no puede ser anterior a la actual");
 
-        if (fechaLd.isAfter(fechaActual.plusMonths(6)))
-            throw new Exception("Todavia no hay vuelos programados para esa fecha");
+        }
+        if (fechaLd.isAfter(fechaActual.plusMonths(7))) {
+            throw new Exception  ("Todavia no hay vuelos programados para esa fecha");
 
+        }
 
         return true;
 

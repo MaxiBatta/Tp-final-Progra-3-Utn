@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.time.LocalDate;
 
 
-public class Menu {
+public final class Menu {
 //Codigos de escape ANSI (color)
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -390,12 +390,14 @@ public class Menu {
         Cliente cliente = sistema.buscarCliente1(dni);
 
         try {
-
-            System.out.println(ANSI_BLUE + "Ingrese fecha de vuelo para reserva (dd/mm/yyyy)" +ANSI_RESET);
-            fecha  = pausa.next();
+            pausa.reset();
+            System.out.println(ANSI_BLUE + "Ingrese fecha de vuelo para reserva (dd/mm/yyyy)" + ANSI_RESET);
+            fecha = pausa.next();
             valida.validaFechaFormato(fecha);
-            LocalDate fechaLd= LocalDate.parse(fecha,DateTimeFormatter.ofPattern("d/MM/y"));
+            LocalDate fechaLd = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
             valida.validaFecha(fechaLd);
+
+
             System.out.println(ANSI_BLUE + "Ingrese cantidad de acompañantes" +ANSI_RESET);
             pasajeros= pausa.nextInt();
             valida.validaCantAcompañantes(30,pasajeros);
@@ -506,6 +508,7 @@ public class Menu {
                             //Se muestran las reservas filtradas por fecha
                             System.out.println("\nIngrese fecha para buscar reservas programadas/Formato xx/mm/YYYY\n");
                             fecha= pausa.nextLine();
+
                             valida.validaFechaFormato(fecha);
                             sistema.muestraReservasFecha(fecha);
                             pausa.nextLine();
@@ -533,7 +536,7 @@ public class Menu {
                                 System.out.println(ANSI_BLUE + "No hay reservas"+ ANSI_RESET);
                                 pausa.nextLine();
                             }
-
+                            pausa.nextLine();
                             break;
                         case 5:
                             // Interfaz forzada para mostrar como se implementa
