@@ -62,9 +62,13 @@ public class Validacion {
     public  int validaUsuarioPassword (String string) {
         int flag=0;
 
-        if (string.length() < 3) {
+        if ((validaLetrasYnumeros(string)) != 0) {
+            System.out.println("Puede ingresar solo letras y numeros ");
+            flag = 1;
+        }
+        if(string.length() < 3){
             System.out.println("Debe ingresar como minimo 4 caracteres");
-            flag=1;
+            flag = 1;
         }
         return flag;
     }

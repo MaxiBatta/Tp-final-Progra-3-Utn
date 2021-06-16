@@ -127,7 +127,7 @@ public class Menu {
         int dni;
         int control;
         int controlDni;
-        int controL;
+
 
 
         try {
@@ -166,16 +166,14 @@ public class Menu {
                     do {
                         System.out.println("Ingrese un Usuario: ");
                         usuario = pausa.nextLine();
-                        control = valida.validaLetrasYnumeros(usuario);
-                        controL = valida.validaUsuarioPassword(usuario);
-                    } while (control != 0 && controL != 0);
+                        control = valida.validaUsuarioPassword(usuario);
+                    } while (control != 0);
 
                     do {
                         System.out.println("Ingrese su password: ");
                         password = pausa.nextLine();
-                        control = valida.validaLetrasYnumeros(password);
-                        controL = valida.validaUsuarioPassword(password);
-                    } while (control != 0 && controL != 0);
+                        control = valida.validaUsuarioPassword(password);
+                    } while (control != 0);
                     pausa.nextLine();
                     //menu para confirmar el registro
                     menuConfirmaDatospersonales(nombre, apellido, usuario, password, edad, dni);
@@ -259,13 +257,13 @@ public class Menu {
                 do {
                     System.out.println("Ingrese Usuario:");
                     usuario = pausa.nextLine();
-                    control = valida.validaNombreApellido(usuario);
+                    control = valida.validaUsuarioPassword(usuario);
                 } while (control != 0);
 
                 do {
                     System.out.println("Ingrese Password");
                     password = pausa.nextLine();
-                    control = valida.validaNombreApellido(password);
+                    control = valida.validaUsuarioPassword(password);
                 } while (control != 0 );
 
                 Cliente cliente = sistema.buscaCliente(usuario, password, dnii);
