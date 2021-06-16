@@ -3,13 +3,14 @@ package com.company;
 import java.util.ArrayList;
 
 public class Silver extends Avion implements ServiceAvion {
-
+    //Codigos de escape ANSI (color)
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_RESET = "\u001B[0m";
 
+    //Constructores
     public Silver() {
     }
 
@@ -17,7 +18,7 @@ public class Silver extends Avion implements ServiceAvion {
         super(combustible, costoKm, capacidadPasajeros, velocidadMax, propulsion, disponibilidad, tarifaFija, catering, wifi, catAvion);
     }
 
-
+    //Setter and Getters
     public String getCatering() {
         return catering;
     }
@@ -26,7 +27,7 @@ public class Silver extends Avion implements ServiceAvion {
         this.catering = catering;
     }
 
-
+    //Metodos
     @Override
     public String toString() {
         return "Avion Silver" +
@@ -36,7 +37,7 @@ public class Silver extends Avion implements ServiceAvion {
                  "\n-----------------------------" +
                 "\n";
     }
-
+    //Se sobreescribe metodo de Interface Service Avion
     @Override
     public void serviceAvion() {
         System.out.println(ANSI_BLUE +"\n\nTabla de Service Aviones Silver:");

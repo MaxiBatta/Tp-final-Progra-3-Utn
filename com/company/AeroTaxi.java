@@ -9,13 +9,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AeroTaxi {
+    //Codigos de escape ANSI (color)
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-
+//region json Persistencia datos
     private File archivoClientes = new File("Clientes.json");
     private File archivoAviones = new File("Aviones.json");
     private File archivoVuelos = new File("Vuelos.json");
@@ -186,6 +187,7 @@ public class AeroTaxi {
         }
         return reservas;
     }
+//endregion
 
     public AeroTaxi() {
         clientes = cargarClientes();
@@ -195,26 +197,40 @@ public class AeroTaxi {
         reservas = cargarReservas();
 
     }
-
+//region Const
     public AeroTaxi(ArrayList<Cliente> clientes, ArrayList<Avion> aviones, ArrayList<Vuelo> vuelos) {
         this.clientes = clientes;
         this.aviones = aviones;
         this.vuelos = vuelos;
     }
+//endregion
+//getters and Setters
+    public ArrayList<Avion> getAviones() {
+        return aviones;
+    }
 
+    public void setAviones(ArrayList<Avion> aviones) {
+        this.aviones = aviones;
+    }
+
+    public ArrayList<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(ArrayList<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
+
+//region Metodos
+
+    //Fx agrega clientes a ArrayList clientes
     public void altaCliente(String nombre, String apellido, String usuario, String password, int edad, int dni) {
         Cliente nuevo = new Cliente(nombre, apellido, usuario, password, edad, dni);
         clientes.add(nuevo);
 
     }
 
-    public int buscarCliente(int dni) {
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getDni() == dni)
-                return i;
-        }
-        return -1;
-    }
 
     public Cliente buscarCliente1(int dni) {
 
@@ -240,6 +256,24 @@ public class AeroTaxi {
 
         return clientes.get(pos);
     }
+
+
+    public Cliente buscaCliente (String user, String pass, int dni) throws Exception {
+
+        Cliente clienteAux = new Cliente();
+        clienteAux = null;
+
+        for (Cliente c : clientes) {
+            if (c.getUsuario().equals(user) && c.getPassword().equals(pass) && c.getDni().equals(dni)) {
+                clienteAux = c;
+            }
+        }
+        if (clienteAux == null) {
+            throw new Exception("Error en la identificacion del cliente");
+        }
+        return clienteAux;
+    }
+
     public int validaDniExiste (int dni){
         int flag=0;
         for (Cliente c : clientes){
@@ -264,11 +298,13 @@ public class AeroTaxi {
 
 
     public void muestraClientes() {
-        for (var cliente : clientes) {
-            System.out.println(cliente);
+        for (Cliente c : clientes) {
+            System.out.println(c);
+            System.out.println(ANSI_CYAN +"Total Facturado a la fecha: "+ calculaTotalFacturadoVuelosDni(c.getDni()) + ANSI_RESET);
+            categoriaMasUtilizada(c.getDni());
         }
     }
-
+//Funcion que utilizo para generar los aviones de la flota y sus fechas disponibles de vuelo en un Array de fechas String
     public void altaAvion() {
         Gold avg1= new Gold(10000, 300, 25, 600, Propulsion.Reaccion, true,6000,"Premium",true, "GOLD");
         Gold avg2= new Gold(15000, 280, 20, 500, Propulsion.Reaccion,true,6000,"Premium", false, "GOLD");
@@ -330,20 +366,6 @@ public class AeroTaxi {
     }
 
 
-    public Avion buscaAvion (int idAvion) throws Exception{
-        int pos=-1;
-        Avion avionAux= new Avion();
-
-        for (int i = 0; i < aviones.size(); i++) {
-            if (aviones.get(i).getIdAvion()== idAvion) {
-                pos= i ;
-            }
-        }
-        if (pos==-1)
-            throw new Exception("Nro de avion elegido no valido");
-
-        return aviones.get(pos);
-    }
     public Avion buscaAvion1 (int idAvion) throws Exception {
 
         Avion avionAux = new Avion();
@@ -360,7 +382,7 @@ public class AeroTaxi {
     return avionAux;
     }
 
-
+        //Fx da de alta rutas en ArrayList
     public void altaRuta (){
         rutas.add(new Ruta("Buenos Aires","Cordoba", 695 ));
         rutas.add(new Ruta("Buenos Aires","Santiago", 1400 ));
@@ -418,9 +440,11 @@ public class AeroTaxi {
     public void altaVuelo(String fecha, Ruta ruta, int pasajeros,Avion avion){
         vuelos.add(new Vuelo(fecha, ruta, pasajeros,avion));
     }
+    //La uso para agregar u vuelo al ArrayList
     public void altaVuelo(Vuelo vuelo){
         vuelos.add(vuelo);
     }
+
     public void muestraVuelos() {
         for (var vuelo: vuelos) {
             System.out.println(vuelo);
@@ -431,6 +455,7 @@ public class AeroTaxi {
         reservas.add(new Reserva(cliente, vuelo, idReserva));
     }
 
+    //La uso para agregar una reserva al ArrayList
     public void altaReserva (Reserva r){
         reservas.add(r);
     }
@@ -470,20 +495,65 @@ public class AeroTaxi {
         }
     }
     public void muestraReservasFecha(String fecha) {
-        LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
-        fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
+
         int flag=0;
         for (Reserva r: reservas) {
             if(r.getVuelo().getFecha().equals(fecha)) {
-                System.out.println(r.toString());
+                System.out.println(r);
                 flag=1 ;
             }
         }
         if (flag==0) {
-            System.out.println(ANSI_RED + "No hay reservas para esa fecha" + ANSI_RESET);
+            System.out.println(ANSI_RED + "No hay reservas programadas para esa fecha" + ANSI_RESET);
         }
 
     }
+
+
+//fx que utilizo para el total facturado por cliente
+    public float calculaTotalFacturadoVuelosDni (int dni) {
+
+        float total=0;
+        for (Reserva r: reservas) {
+            if(r.getCliente().getDni()==dni) {
+                total =  total + r.getVuelo().calculaCostoVuelo();
+            }
+        }
+        return total;
+        }
+//Fx que indica la mayor categoria usada hasta el momento
+    public void categoriaMasUtilizada (int dni) {
+
+        int Gold=0;
+        int Silver=0;
+        int Bronze=0;
+        for (Reserva r: reservas) {
+            if(r.getCliente().getDni()== dni && r.getVuelo().getAvion().getTarifaFija()==6000) {
+                Gold=1;
+            }
+            if(r.getCliente().getDni()== dni && r.getVuelo().getAvion().getTarifaFija()==4000) {
+               Silver=1;
+
+            }if(r.getCliente().getDni()== dni && r.getVuelo().getAvion().getTarifaFija()==3000) {
+                Bronze=1;
+            }
+        }
+        if (Gold != 0) {
+            System.out.println(ANSI_CYAN + "CT ++ GOLD\n" + ANSI_RESET);
+        }else{
+            if(Silver!=0){
+                System.out.println(ANSI_GREEN + "CT ++ SILVER\n" + ANSI_RESET);
+            }else{
+                if(Bronze!=0) {
+                    System.out.println(ANSI_BLUE + "CT ++ BRONZE\n" + ANSI_RESET);
+                }else{
+                    System.out.println(ANSI_RED + "CT ++ --\n" + ANSI_RESET);
+                }
+            }
+        }
+
+    }
+
 
     public boolean validaReservas (){
         Boolean rta=true;
@@ -502,25 +572,12 @@ public class AeroTaxi {
             }
         return flag;
     }
+    //fx para buscar el ultimo id de las reservas
     public int ultimoIdReservas (){
         return reservas.size();
     }
+//endregion
 
 
-    public ArrayList<Avion> getAviones() {
-        return aviones;
-    }
-
-    public void setAviones(ArrayList<Avion> aviones) {
-        this.aviones = aviones;
-    }
-
-    public ArrayList<Reserva> getReservas() {
-        return reservas;
-    }
-
-    public void setReservas(ArrayList<Reserva> reservas) {
-        this.reservas = reservas;
-    }
 }
 

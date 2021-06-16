@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 
 public class Menu {
-
+//Codigos de escape ANSI (color)
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
@@ -38,8 +38,7 @@ public class Menu {
                 opcion = scan.nextInt();
                 switch (opcion) {
                     case 1:
-
-                        menuReserva();
+                        menuInicioCliente();
                         pausa.nextLine();
                         break;
                     case 2:
@@ -49,7 +48,7 @@ public class Menu {
 
                     case 3:
                         salir = true;
-
+                        // persistencia de datos
                         sistema.guardarClientes();
                         sistema.guardarRutas();
                         sistema.guardarAviones();
@@ -71,7 +70,7 @@ public class Menu {
     }
 
 
-    public void menuReserva() {
+    public void menuInicioCliente() {
         Scanner scan = new Scanner(System.in);
         Scanner pausa = new Scanner(System.in);
         boolean salir = false;
@@ -80,7 +79,6 @@ public class Menu {
         do {
             System.out.println("\n1. Cliente ya registrado\n");
             System.out.println("\n2. Nuevo cliente\n");
-
             System.out.println("\n3. Menu anterior");
 
             try {
@@ -88,14 +86,15 @@ public class Menu {
                 opcion = scan.nextInt();
                 switch (opcion) {
                     case 1:
+                        //Ingresa al menu del cliente ya registrado
                         menuClienteRegistrado();
                         pausa.nextLine();
 
                         break;
                     case 2:
+                        //Ingresa al menu para registrar un nuevo cliente
                         menuRegistraCliente();
                         pausa.nextLine();
-
 
                         break;
 
@@ -117,7 +116,7 @@ public class Menu {
         pausa.nextLine();
     }
 
-
+//Menu para registrar a un nuevo cliente
     private void menuRegistraCliente() {
         String usuario;
         String password;
@@ -131,8 +130,7 @@ public class Menu {
         int controL;
 
 
-
-            try {
+        try {
 
                 pausa.reset();
                 do {
@@ -179,16 +177,15 @@ public class Menu {
                         controL = valida.validaUsuarioPassword(password);
                     } while (control != 0 && controL != 0);
                     pausa.nextLine();
-
+                    //menu para confirmar el registro
                     menuConfirmaDatospersonales(nombre, apellido, usuario, password, edad, dni);
                     } else {
                         System.out.println(ANSI_BLUE + "Ingrese como cliente Registrado" + ANSI_RESET);
                     }
                     pausa.reset();
-                pausa.nextLine();
+                    pausa.nextLine();
 
                 }
-
              catch(InputMismatchException e){
                 System.out.println("Debes ingresar valores enteros");
             }
@@ -199,10 +196,8 @@ public class Menu {
                 System.out.println(e.getMessage());
 
             }
-
-
-
     }
+    //Menu para confirmar el registro de un nuevo cliente
     public void menuConfirmaDatospersonales(String nombre,String apellido,String usuario,String password,int edad, int dni) {
         boolean salir = false;
         int opcion;
@@ -217,6 +212,8 @@ public class Menu {
                     case 1:
                         sistema.altaCliente(nombre, apellido, usuario, password, edad, dni);
                         System.out.println(ANSI_GREEN+"Registracion exitosa" +ANSI_RESET);
+                        sistema.guardarClientes();
+                        sistema.cargarClientes();
                         System.out.println(sistema.buscarCliente1(dni));
 
                         salir = true;
@@ -240,18 +237,17 @@ public class Menu {
         } while (!salir);
 
     }
-
+// Menu para el cliente que ya se encuentra registrado
     private void menuClienteRegistrado()  {
         int dnii;
         String usuario;
         String password;
         int control;
-        int controL;
         int controlDni;
 
         try{
             pausa.reset();
-            sistema.muestraClientes();
+
             do {
                 System.out.println("Ingrese su dni");
                 dnii = pausa.nextInt();
@@ -264,29 +260,26 @@ public class Menu {
                     System.out.println("Ingrese Usuario:");
                     usuario = pausa.nextLine();
                     control = valida.validaNombreApellido(usuario);
-                    controL = valida.validaUsuarioPassword(usuario);
-                } while (control != 0 && controL != 0);
+                } while (control != 0);
 
                 do {
                     System.out.println("Ingrese Password");
                     password = pausa.nextLine();
                     control = valida.validaNombreApellido(password);
-                    controL = valida.validaUsuarioPassword(password);
-                } while (control != 0 && controL != 0);
+                } while (control != 0 );
 
-                Cliente cliente = sistema.buscarCliente(usuario, password, dnii);
+                Cliente cliente = sistema.buscaCliente(usuario, password, dnii);
 
                 if(cliente!=null) {
-                    System.out.println(ANSI_BLUE + "\n\nAcceso exitoso!\n" + ANSI_RESET);
+                    System.out.println(ANSI_GREEN + "\n\nAcceso exitoso!\n" + ANSI_RESET);
+                    //Una vez que corroboro dni, pass y user se ingresa al Menu de Cliente personalizado
                     menuCliente(dnii);
                 }else{
                     System.out.println(ANSI_RED + "Usuario o contraseña no valida" + ANSI_RESET);
                 }
             }else{
                 System.out.println(ANSI_RED + "Usuario no registrado" + ANSI_RESET);
-
             }
-
 
         } catch (InputMismatchException e) {
             System.out.println("Debes ingresar valores enteros");
@@ -298,15 +291,14 @@ public class Menu {
         pausa.reset();
         pausa.nextLine();
     }
-
+// Menu Cliente
     private void menuCliente (int dni) {
         Cliente cliente = sistema.buscarCliente1(dni);
         int opcion;
         boolean continuar = true;
         String rta;
+        String fecha;
         int id;
-
-
 
         do {
             try {
@@ -314,18 +306,17 @@ public class Menu {
                 System.out.println(ANSI_BLUE + "\nMenu Opciones de Cliente " + cliente.getNombre() + ANSI_RESET);
                 System.out.println("\n1-Realizar reserva");
                 System.out.println("\n2-Cancelar reserva");
-                System.out.println("\n3-Mis reservas por fecha");
-                System.out.println("\n4-Mis reservas");
-                System.out.println("\n5-Volver al menu anterior");
+                System.out.println("\n3-Mis reservas");
+                System.out.println("\n4-Volver al menu anterior");
                 System.out.println(ANSI_BLUE + "\nEscribe una de las opciones\n" + ANSI_RESET);
 
                 opcion = pausa.nextInt();
 
 
-
                 switch (opcion) {
                     case 1:
                         pausa.reset();
+                        //Menu para gestionar una reserva
                         menuAltaReserva(dni);
 
                         break;
@@ -334,7 +325,7 @@ public class Menu {
                         if (sistema.validaReservas()) {
                             System.out.println(ANSI_BLUE + "\n\tRESERVAS ACTUALES" + ANSI_RESET);
                             sistema.muestraReservas(dni);
-                            System.out.println(ANSI_BLUE + "Ingrese nro de Id de reserva a cancelar" + ANSI_RESET);
+                            System.out.println(ANSI_BLUE + "Ingrese nro de Id de reserva a cancelar / 0 Cero para salir" + ANSI_RESET);
                             id = pausa.nextInt();
 
                             if (sistema.buscaReserva(id) != null) {
@@ -363,10 +354,6 @@ public class Menu {
                         }
                         break;
                     case 3:
-                        System.out.println("p");
-                        break;
-
-                    case 4:
                         if(sistema.validaReservas()) {
                             sistema.muestraReservas(dni);
                             pausa.nextLine();
@@ -376,12 +363,11 @@ public class Menu {
                         }
                         pausa.nextLine();
                         break;
-                    case 5:
-
+                    case 4:
                         continuar = false;
                         break;
                     default:
-                        System.out.println("Solo opciones entre 1 y 5");
+                        System.out.println("Solo opciones entre 1 y 4");
                         break;
                 }
             } catch (InputMismatchException e) {
@@ -396,17 +382,14 @@ public class Menu {
         } while (continuar);
         pausa.nextLine();
     }
-
+// Menu Para gestionar alta de una reserva
     private void menuAltaReserva (int dni) {
         String fecha;
-        String origen;
-        String destino;
         int pasajeros;
         int idAvion;
         int idRuta;
         String opcion;
         Cliente cliente = sistema.buscarCliente1(dni);
-
 
         try {
 
@@ -425,24 +408,26 @@ public class Menu {
             System.out.println(ANSI_BLUE + "Ingrese Id ruta elegida" +ANSI_RESET);
             idRuta= pausa.nextInt();
 
+            //busco la ruta por ID elegido
             Ruta ruta = sistema.buscaRutaId(idRuta);
-            System.out.println(ruta);
+
             System.out.println("\n-----------------------------\n");
             System.out.println(ANSI_BLUE+"Aviones disponibles" +ANSI_RESET);
-
             System.out.println("\n-----------------------------\n");
 
+            //Muestro los aviones disponibles por fecha y disponibilidad de asientos
             sistema.muestraAvionesDisponiblesPorFecha(fecha, pasajeros);
 
 
             System.out.println(ANSI_BLUE+"Elija un avion disponible por nro de ID"+ ANSI_RESET);
             idAvion = pausa.nextInt();
+            //busco el avion por ID elegido
             Avion avion= sistema.buscaAvion1(idAvion);
-            avion.muestraFechasDisponibles();
 
+            //Creo el Vuelo para guardar en la reserva
             Vuelo vuelo= new Vuelo(fecha,ruta,pasajeros,avion);
 
-
+            //Chequeo que el avion tenga disponibilidad de asientos
                 if (pasajeros <= avion.getCapacidadPasajeros()){
                     sistema.altaVuelo(vuelo);
                     sistema.guardarVuelos();
@@ -452,6 +437,7 @@ public class Menu {
             }
 
             pausa.nextLine();
+                //Confirmacion de reserva
             System.out.println(ANSI_BLUE+"Desea confirmar la reserva para este vuelo S/N? " +ANSI_RESET);
             opcion = pausa.nextLine();
             if (opcion.equals("s")) {
@@ -459,9 +445,10 @@ public class Menu {
                 Reserva reservaActual = new Reserva(cliente, vuelo, sistema.ultimoIdReservas()+1);
                 System.out.println  (reservaActual);
                 System.out.println("---------------");
-
+                // se borra la fecha de dsiponibilidad del avion
                 avion.removeFechasDisponibles(fecha);
-                System.out.println(avion.getFechasDisponibles());
+
+                // Se guardan los datos para persistencia
                 sistema.guardarAviones();
                 sistema.altaReserva(reservaActual);
 
@@ -487,7 +474,7 @@ public class Menu {
         pausa.nextLine();
 
     }
-
+// Menu de administrador
     public void menuAdministrador() {
         boolean salir = false;
         int opcion;
@@ -514,9 +501,11 @@ public class Menu {
                     opcion = scan.nextInt();
                     switch (opcion) {
                         case 1:
+                            // Se muestra el Array de Clientes
                             sistema.muestraClientes();
                             break;
                         case 2:
+                            //Se muestran las reservas filtradas por fecha
                             System.out.println("\nIngrese fecha para buscar reservas programadas/Formato xx/mm/YYYY\n");
                             fecha= pausa.nextLine();
                             valida.validaFechaFormato(fecha);
@@ -524,6 +513,7 @@ public class Menu {
                             pausa.nextLine();
                             break;
                         case 3:
+                            //Se muestran las reservas filtradas por cliente
                             System.out.println(ANSI_BLUE+ "Ingresa dni/cliente"+ANSI_RESET);
                             dni= pausa.nextInt();
                             if(sistema.validaReservaDni(dni)==1) {
@@ -538,7 +528,7 @@ public class Menu {
 
                             break;
                         case 4:
-
+                            //Se muestran todas las reservas
                             if(sistema.validaReservas()) {
                                 sistema.muestraReservas();
                             }else {
@@ -548,7 +538,7 @@ public class Menu {
 
                             break;
                         case 5:
-
+                            // Interfaz forzada para mostrar como se implementa
                             Gold avionGold = new Gold();
                             Silver avionSilver = new Silver();
                             Bronze avionBronze = new Bronze();
@@ -556,9 +546,6 @@ public class Menu {
                             avionSilver.serviceAvion();
                             avionBronze.serviceAvion();
                             pausa.nextLine();
-
-
-
 
                             break;
                         case 6:
@@ -583,7 +570,7 @@ public class Menu {
         }
         pausa.nextLine();
     }
-
+// Menu para Confirmar la baja de una Reserva
     public void menuCancelaReserva(int id) {
         boolean salir = false;
         int opcion;
@@ -599,6 +586,7 @@ public class Menu {
                         sistema.bajaReserva(id);
                         System.out.println(ANSI_BLUE+"La reserva se ha cancelado con exito"+ANSI_RESET);
                         sistema.guardarReservas();
+                        sistema.cargarReservas();
                         pausa.nextLine();
                         salir = true;
                         break;
@@ -621,10 +609,5 @@ public class Menu {
     }
 
 
-    public void espaciador(){
-    for(int i=0; i<5;i++){
-        System.out.println("\n");
-    }
-}
 
 }

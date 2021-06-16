@@ -11,6 +11,8 @@ public class Vuelo {
     private int numeroPasajeros;
     private Avion avion;
 
+//Constructores
+
     public Vuelo() {
     }
 
@@ -21,6 +23,8 @@ public class Vuelo {
         this.numeroPasajeros = numeroPasajeros;
         this.avion = avion;
     }
+
+//Getters an Setters
 
     public UUID getIdVuelo() {
         return idVuelo;
@@ -62,6 +66,9 @@ public class Vuelo {
         this.avion = avion;
     }
 
+    //Metodos
+
+    //Fx para calcular el costo del vuelo
     public float calculaCostoVuelo (){
 
         return (ruta.getDistanciaKm()*avion.getCostoKm()) + numeroPasajeros * 3500 + avion.getTarifaFija();

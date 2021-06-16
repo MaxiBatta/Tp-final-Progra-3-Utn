@@ -10,7 +10,7 @@ public class Ruta {
     private int distanciaKm;
     private int idRuta;
 
-
+//Constructores
     public Ruta() {
     }
 
@@ -22,6 +22,7 @@ public class Ruta {
         this.distanciaKm = distanciaKm;
         this.idRuta = ++cont;
     }
+//getters and setters
 
     public static int getCont() {
         return cont;
@@ -64,7 +65,7 @@ public class Ruta {
     }
 
 
-
+//Metodos
 
     @Override
     public String toString() {

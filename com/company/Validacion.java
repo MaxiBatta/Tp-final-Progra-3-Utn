@@ -11,6 +11,9 @@ public class Validacion {
     public Validacion() {
     }
 
+
+//region metodos
+
     public  int validaLetrasYnumeros(String string) {
         int flag=0;
         for (int i = 0; i < string.length(); i++) {
@@ -55,6 +58,7 @@ public class Validacion {
         }
         return flag;
     }
+
     public  int validaUsuarioPassword (String string) {
         int flag=0;
 
@@ -111,14 +115,7 @@ public class Validacion {
 
     }
 
-    //para verificar origen y destino
-    public  boolean validaOrigenDestino(String string1, String string2) throws Exception {
-        if (string1.equals(string2)) {
-            throw new Exception("Origen y  Destino no pueden ser iguales");
-        }
 
-        return true;
-    }
 
     public  boolean validaCantAcompañantes(int cantMax , int cant) throws Exception {
 
@@ -129,23 +126,7 @@ public class Validacion {
         return true;
     }
 
-    public  boolean validaIdReserva1(ArrayList<Reserva> reservas , int id) throws Exception {
-            for (Reserva reserva : reservas)
-            if (reservas.contains(id)) {
-                throw new Exception("El nro de reserva no es valida");
-            }
-
-        return true;
-    }
-
-    public  void validaIdReserva(ArrayList<Reserva> reservas , int id)  {
-
-            if (reservas.get(id)== null) {
-                System.out.println("El nro de reserva no es valida");
-            }
-
-    }
-
+//endregion
 
 
 

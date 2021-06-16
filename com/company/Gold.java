@@ -1,20 +1,17 @@
 package com.company;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 
-public class Gold extends Avion implements ServiceAvion, Serializable {
-
+public class Gold extends Avion implements ServiceAvion {
+    //Codigos de escape ANSI (color)
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_RESET = "\u001B[0m";
 
+   //Constructores
     public Gold() {
     }
-
-
 
     public Gold(String catering, boolean wifi) {
         this.catering = catering;
@@ -25,7 +22,7 @@ public class Gold extends Avion implements ServiceAvion, Serializable {
         super(combustible, costoKm, capacidadPasajeros, velocidadMax, propulsion, disponibilidad, tarifaFija, catering, wifi, catAvion);
     }
 
-
+//Setters and Getters
     public String getCatering() {
         return catering;
     }
@@ -41,6 +38,8 @@ public class Gold extends Avion implements ServiceAvion, Serializable {
     public void setWifi(boolean wifi) {
         this.wifi = wifi;
     }
+
+    //Metodos
 
     @Override
     public String toString() {
@@ -63,7 +62,7 @@ public class Gold extends Avion implements ServiceAvion, Serializable {
                     "\n";
         }
     }
-
+//Se sobreescribe metodo de Interface Service Avion
     @Override
     public void serviceAvion() {
         System.out.println(ANSI_GREEN+ "\n\nTabla de Service Aviones Gold:");

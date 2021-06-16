@@ -7,7 +7,8 @@ import java.util.ArrayList;
 
 
 public  class Avion  {
-public static final String ANSI_BLUE = "\u001B[34m";
+
+    public static final String ANSI_BLUE = "\u001B[34m";
 public static final String ANSI_RESET = "\u001B[0m";
 
     private int combustible;
@@ -26,6 +27,7 @@ public static final String ANSI_RESET = "\u001B[0m";
 
 
 
+//Constructores
 
     public Avion() {
     }
@@ -43,6 +45,9 @@ public static final String ANSI_RESET = "\u001B[0m";
         this.idAvion= ++cont;
         this.catAvion= catAvion;
     }
+
+
+// Getters and Setters
 
 
     public int getCombustible() {
@@ -108,6 +113,23 @@ public static final String ANSI_RESET = "\u001B[0m";
     public void setDisponibilidad(boolean disponibilidad) {
         this.disponibilidad = disponibilidad;
     }
+    public String getCatAvion() {
+        return catAvion;
+    }
+    public void setCatAvion(String catAvion) {
+        this.catAvion = catAvion;
+    }
+    public ArrayList<String> getFechasDisponibles() {
+        return fechasDisponibles;
+    }
+
+    public void setFechasDisponibles(ArrayList<String> fechasDisponibles) {
+        this.fechasDisponibles = fechasDisponibles;
+    }
+
+
+    // Metodos
+
 
     //Fx que carga fechas en un arreglo String
     public void cargaFechasDisponibles (String fecha){
@@ -130,6 +152,7 @@ public static final String ANSI_RESET = "\u001B[0m";
             }
         }
     }
+//fx que uso para cargar fechas en Array de fechas disponible de cada avion
 
     public void cargaFechaDisponible (Avion avion ,String fecha ){
         LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
@@ -138,13 +161,7 @@ public static final String ANSI_RESET = "\u001B[0m";
     }
 
 
-    public ArrayList<String> getFechasDisponibles() {
-        return fechasDisponibles;
-    }
 
-    public void setFechasDisponibles(ArrayList<String> fechasDisponibles) {
-        this.fechasDisponibles = fechasDisponibles;
-    }
     public void muestraFechasDisponibles(){
         for (String fecha: fechasDisponibles){
             System.out.println(fecha);

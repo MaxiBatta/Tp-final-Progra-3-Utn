@@ -12,7 +12,7 @@ private Integer dni;
 
 
 
-
+//region Const
 
     public Cliente() {
     }
@@ -27,7 +27,8 @@ private Integer dni;
         this.dni = dni;
     }
 
-
+//endregion
+//region Getters & Setters
     public static int getCont() {
         return cont;
     }
@@ -90,16 +91,16 @@ private Integer dni;
     public void setPassword(String password) {
         this.password = password;
     }
-    @Override
+//endregion
+//region Metodos
+@Override
     public String toString() {
         return "Nombre: " + this.nombre +
                 "\nApellido: " + this.apellido +
                 "\nDni: " + this.dni +
                 "\nEdad: " + this.edad +
-                "\nUsuario: " + this.usuario +
-                "\nPassword: " + this.password +
                 "\n-------------------- ";
     }
-
+//endregion
 
 }

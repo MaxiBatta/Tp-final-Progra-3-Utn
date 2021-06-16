@@ -12,7 +12,7 @@ public class Reserva {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-
+//region const
     public Reserva() {
     }
 
@@ -23,6 +23,9 @@ public class Reserva {
         this.vuelo = vuelo;
         this.idReserva = idReserva;
     }
+//endregion
+
+//region Getters and Getters
 
     public Cliente getCliente() {
         return cliente;
@@ -39,21 +42,6 @@ public class Reserva {
     public void setVuelo(Vuelo vuelo) {
         this.vuelo = vuelo;
     }
-
-
-
-
-    @Override
-    public String toString() {
-        return "-----------------------------------" +
-                "\nReserva " +
-                (ANSI_GREEN + "\nReserva Id: " + this.idReserva + ANSI_RESET) +
-                "\nCliente: " + this.cliente.toString() +
-                "\nVuelo: " + this.vuelo.toString();
-
-    }
-
-
     public int getIdReserva() {
         return idReserva;
     }
@@ -61,4 +49,21 @@ public class Reserva {
     public void setIdReserva(int idReserva) {
         this.idReserva = idReserva;
     }
+
+
+//endregion
+
+//region metodos
+    @Override
+    public String toString() {
+        return "-----------------------------------" +
+                "\n\n " +
+                (ANSI_GREEN + "\nReserva Id: " + this.idReserva + ANSI_RESET) +
+                "\nCliente: " + this.cliente.toString() +
+                "\nVuelo: " + this.vuelo.toString();
+
+    }
+
+//endregion
+
 }
