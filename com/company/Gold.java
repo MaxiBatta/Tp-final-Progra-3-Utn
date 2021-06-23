@@ -62,7 +62,7 @@ public class Gold extends Avion implements ServiceAvion {
                     "\n";
         }
     }
-//Se sobreescribe metodo de Interface Service Avion
+//Se implementa metodo de Interface Service Avion
     @Override
     public void serviceAvion() {
         System.out.println(ANSI_GREEN+ "\n\nTabla de Service Aviones Gold:");
