@@ -4,9 +4,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AeroTaxi {
     //Codigos de escape ANSI (color)
@@ -16,7 +18,7 @@ public class AeroTaxi {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-//region json Persistencia datos
+//region Archivos/ json Persistencia datos
     private File archivoClientes = new File("Clientes.json");
     private File archivoAviones = new File("Aviones.json");
     private File archivoVuelos = new File("Vuelos.json");
@@ -27,6 +29,7 @@ public class AeroTaxi {
     private ArrayList<Vuelo> vuelos = new ArrayList<>();
     private ArrayList<Reserva> reservas = new ArrayList<>();
     private ArrayList<Ruta> rutas = new ArrayList<>();
+    private HashMap <String, Integer> listaHash = new HashMap<>();
 
     private static GsonBuilder gb = new GsonBuilder();
     Gson gson = gb.setPrettyPrinting().create();
@@ -528,13 +531,13 @@ public class AeroTaxi {
         int Silver=0;
         int Bronze=0;
         for (Reserva r: reservas) {
-            if(r.getCliente().getDni()== dni && r.getVuelo().getAvion().getTarifaFija()==6000) {
+            if(r.getCliente().getDni()== dni && r.getVuelo().getAvion().getCatAvion().equals("GOLD")) {
                 Gold=1;
             }
-            if(r.getCliente().getDni()== dni && r.getVuelo().getAvion().getTarifaFija()==4000) {
+            if(r.getCliente().getDni()== dni && r.getVuelo().getAvion().getCatAvion().equals("SILVER")) {
                Silver=1;
 
-            }if(r.getCliente().getDni()== dni && r.getVuelo().getAvion().getTarifaFija()==3000) {
+            }if(r.getCliente().getDni()== dni && r.getVuelo().getAvion().getCatAvion().equals("BRONZE")) {
                 Bronze=1;
             }
         }
@@ -578,6 +581,20 @@ public class AeroTaxi {
     }
 //endregion
 
+    public void recorreArrayyPasaaListhash(){
+        for (Reserva r : reservas){
+            listaHash.put(r.getCliente().getApellido(), r.getCliente().getDni());
+        }
+    }
+    public void muestraListaHash(){
+        listaHash.forEach(
+                (k,v) ->{
+                    System.out.println("Apellido Cliente : " + k);
+                    System.out.println("Dni nro : " + v);
+                    System.out.println("-------------------------");
+                }
+                );
+    }
 
 }
 

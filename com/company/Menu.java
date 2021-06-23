@@ -19,6 +19,7 @@ public final class Menu {
     Scanner pausa = new Scanner(System.in);
     AeroTaxi sistema = new AeroTaxi();
     Validacion valida = new Validacion();
+    Generica g= new Generica();
 
     public Menu() {
     }
@@ -493,8 +494,9 @@ public final class Menu {
                 System.out.println("\n2. Listado de reservas por fecha");
                 System.out.println("\n3. Listado de reservas por cliente");
                 System.out.println("\n4. Listado completo de reservas");
-                System.out.println("\n5. Ficha tecnica aviones");
-                System.out.println("\n6. Menu anterior");
+                System.out.println("\n5. Lista Hash Clientes que tienen Reservas");
+                System.out.println("\n6. Ficha tecnica aviones");
+                System.out.println("\n7. Menu anterior");
 
                 try {
                     System.out.println(ANSI_BLUE+ "\nEscribe una de las opciones" + ANSI_RESET);
@@ -539,6 +541,11 @@ public final class Menu {
                             pausa.nextLine();
                             break;
                         case 5:
+                            sistema.recorreArrayyPasaaListhash();
+                            sistema.muestraListaHash();
+                            pausa.nextLine();
+                            break;
+                        case 6:
                             // Interfaz forzada para mostrar como se implementa
                             Gold avionGold = new Gold();
                             Silver avionSilver = new Silver();
@@ -549,13 +556,13 @@ public final class Menu {
                             pausa.nextLine();
 
                             break;
-                        case 6:
+                        case 7:
                             salir = true;
                             System.out.println("Enter para volver a menu anterior");
 
                             break;
                         default:
-                            System.out.println("Solo opciones entre 1 y 5");
+                            System.out.println("Solo opciones entre 1 y 7");
                     }
                 } catch (InputMismatchException e) {
                     System.out.println("Debes ingresar valores enteros");
