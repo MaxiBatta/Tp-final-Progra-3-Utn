@@ -1,12 +1,18 @@
 package com.company;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public  class Avion  {
+public  class Avion <T> {
 
     public static final String ANSI_BLUE = "\u001B[34m";
 public static final String ANSI_RESET = "\u001B[0m";
@@ -21,9 +27,8 @@ public static final String ANSI_RESET = "\u001B[0m";
     private boolean disponibilidad;
     private int tarifaFija =0;
     private ArrayList<String> fechasDisponibles = new ArrayList<>();
-    protected String catering ="";
-    protected boolean wifi= false;
     private String catAvion= "";
+
 
 
 
@@ -32,7 +37,7 @@ public static final String ANSI_RESET = "\u001B[0m";
     public Avion() {
     }
 
-    public Avion(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion, boolean disponibilidad, int tarifaFija, String catering, boolean wifi, String catAvion) {
+    public Avion(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion, boolean disponibilidad, int tarifaFija, String catAvion) {
         this.combustible = combustible;
         this.costoKm = costoKm;
         this.capacidadPasajeros = capacidadPasajeros;
@@ -40,11 +45,11 @@ public static final String ANSI_RESET = "\u001B[0m";
         this.propulsion = propulsion;
         this.disponibilidad = disponibilidad;
         this.tarifaFija = tarifaFija;
-        this.catering = catering;
-        this.wifi = wifi;
         this.idAvion= ++cont;
         this.catAvion= catAvion;
     }
+
+
 
 
 // Getters and Setters
@@ -171,10 +176,8 @@ public static final String ANSI_RESET = "\u001B[0m";
     @Override
     public String toString() {
         if (disponibilidad) {
-            if (wifi) {
+
                 return  (ANSI_BLUE + "\n\tAvion " + this.catAvion +ANSI_RESET) +
-                        "\nCatering: " + this.catering +
-                        "\nWifi: SI" +
                         "\nCombustible: " + this.combustible +
                         "\nCosto Km: " + this.costoKm +
                         "\nCapacidad de Pasajeros: " + this.capacidadPasajeros +
@@ -182,22 +185,9 @@ public static final String ANSI_RESET = "\u001B[0m";
                         "\nID de Avion: " + this.idAvion +
                         "\nUNIDAD DISPONIBLE ";
 
-                    }else{
-                return (ANSI_BLUE + "\n\tAvion " + this.catAvion +ANSI_RESET) +
-                        "\nCatering: " + this.catering +
-                        "\nWifi: NO" +
-                        "\nCombustible: " + this.combustible +
-                        "\nCosto Km: " + this.costoKm +
-                        "\nCapacidad de Pasajeros: " + this.capacidadPasajeros +
-                        "\nVelocidad Maxima: " + this.velocidadMax +
-                        "\nID de Avion: " + this.idAvion +
-                        "\nUNIDAD DISPONIBLE ";
-            }
 
         }else{
             return (ANSI_BLUE + "\n\tAvion " + this.catAvion +ANSI_RESET) +
-                    "\nCatering: " + this.catering +
-                    "\nWifi: NO" +
                     "\nCombustible: " + this.combustible +
                     "\nCosto Km: " + this.costoKm +
                     "\nCapacidad de Pasajeros: " + this.capacidadPasajeros +

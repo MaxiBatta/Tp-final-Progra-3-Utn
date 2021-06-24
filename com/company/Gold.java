@@ -9,6 +9,9 @@ public class Gold extends Avion implements ServiceAvion {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_RESET = "\u001B[0m";
 
+    private String catering ="";
+    private boolean wifi= false;
+
    //Constructores
     public Gold() {
     }
@@ -19,7 +22,9 @@ public class Gold extends Avion implements ServiceAvion {
     }
 
     public Gold(int combustible, float costoKm, int capacidadPasajeros, int velocidadMax, Propulsion propulsion, boolean disponibilidad, int tarifaFija, String catering, boolean wifi, String catAvion) {
-        super(combustible, costoKm, capacidadPasajeros, velocidadMax, propulsion, disponibilidad, tarifaFija, catering, wifi, catAvion);
+        super(combustible, costoKm, capacidadPasajeros, velocidadMax, propulsion, disponibilidad, tarifaFija, catAvion);
+        this.catering = catering;
+        this.wifi = wifi;
     }
 
 //Setters and Getters

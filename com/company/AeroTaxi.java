@@ -9,8 +9,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class AeroTaxi {
+public class AeroTaxi  {
     //Codigos de escape ANSI (color)
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -200,6 +201,7 @@ public class AeroTaxi {
         reservas = cargarReservas();
 
     }
+
 //region Const
     public AeroTaxi(ArrayList<Cliente> clientes, ArrayList<Avion> aviones, ArrayList<Vuelo> vuelos) {
         this.clientes = clientes;
@@ -224,6 +226,28 @@ public class AeroTaxi {
         this.reservas = reservas;
     }
 
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(ArrayList<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+    public ArrayList<Vuelo> getVuelos() {
+        return vuelos;
+    }
+
+    public void setVuelos(ArrayList<Vuelo> vuelos) {
+        this.vuelos = vuelos;
+    }
+
+    public ArrayList<Ruta> getRutas() {
+        return rutas;
+    }
+
+    public void setRutas(ArrayList<Ruta> rutas) {
+        this.rutas = rutas;
+    }
 
 //region Metodos
 
@@ -309,12 +333,12 @@ public class AeroTaxi {
     }
 //Funcion que utilizo para generar los aviones de la flota y sus fechas disponibles de vuelo en un Array de fechas String
     public void altaAvion() {
-        Gold avg1= new Gold(10000, 300, 25, 600, Propulsion.Reaccion, true,6000,"Premium",true, "GOLD");
-        Gold avg2= new Gold(15000, 280, 20, 500, Propulsion.Reaccion,true,6000,"Premium", false, "GOLD");
-        Silver avs1= new Silver(9000, 250,20,500,Propulsion.Pistones,true,4000,"Basico",false, "SILVER");
-        Silver avs2= new Silver(8000, 280, 20, 500, Propulsion.Reaccion, true,4000,"Basico",false, "SILVER");
-        Bronze avb1= new Bronze(9000, 180, 30, 400, Propulsion.Helice,true,3000,"NO",false,"BRONZE");
-        Bronze avb2= new Bronze(5000, 150, 10, 450, Propulsion.Helice,true,3000,"NO",false, "BRONZE");
+        Avion <Gold> avg1= new Gold(10000, 300, 25, 600, Propulsion.Reaccion, true,6000,"Premium",true, "GOLD");
+        Avion <Gold> avg2= new Gold(15000, 280, 20, 500, Propulsion.Reaccion,true,6000,"Premium", false, "GOLD");
+        Avion <Silver> avs1= new Silver(9000, 250,20,500,Propulsion.Pistones,true,4000,"Basico", "SILVER");
+        Avion <Silver> avs2= new Silver(8000, 280, 20, 500, Propulsion.Reaccion, true,4000,"Basico", "SILVER");
+        Avion <Bronze> avb1= new Bronze(9000, 180, 30, 400, Propulsion.Helice,true,3000, "BRONZE");
+        Avion <Bronze> avb2= new Bronze(5000, 150, 10, 450, Propulsion.Helice,true,3000, "BRONZE");
 
         aviones.add(avg1);
         aviones.add(avg2);
@@ -333,6 +357,7 @@ public class AeroTaxi {
 
 
     }
+
 
 
     public void muestraAviones() {
@@ -357,9 +382,9 @@ public class AeroTaxi {
         Boolean dispo=false;
         LocalDate fechaLD= LocalDate.parse(fecha, DateTimeFormatter.ofPattern("d/MM/y"));
         fecha = fechaLD.format(DateTimeFormatter.ISO_DATE);
-        for (var avion : aviones) {
-            if (avion.getFechasDisponibles().contains(fecha) && avion.isDisponibilidad()&& avion.getCapacidadPasajeros()>= pasajeros) {
-                System.out.println( avion );
+        for (Avion t : aviones) {
+            if (t.getFechasDisponibles().contains(fecha) && t.isDisponibilidad()&& t.getCapacidadPasajeros()>= pasajeros) {
+                System.out.println(t);
                 dispo=true;
             }
         }
@@ -595,6 +620,8 @@ public class AeroTaxi {
                 }
                 );
     }
+
+
 
 }
 

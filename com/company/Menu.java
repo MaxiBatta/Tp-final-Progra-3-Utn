@@ -21,6 +21,7 @@ public final class Menu {
     Validacion valida = new Validacion();
     Generica g= new Generica();
 
+
     public Menu() {
     }
 
@@ -436,7 +437,6 @@ public final class Menu {
                 } else{
                 System.out.println(ANSI_RED+"NO tenemos aviones con esa capacidad de pasajeros" +ANSI_RESET);
             }
-
             pausa.nextLine();
                 //Confirmacion de reserva
             System.out.println(ANSI_BLUE+"Desea confirmar la reserva para este vuelo S/N? " +ANSI_RESET);
@@ -495,8 +495,9 @@ public final class Menu {
                 System.out.println("\n3. Listado de reservas por cliente");
                 System.out.println("\n4. Listado completo de reservas");
                 System.out.println("\n5. Lista Hash Clientes que tienen Reservas");
-                System.out.println("\n6. Ficha tecnica aviones");
-                System.out.println("\n7. Menu anterior");
+                System.out.println("\n6. Lista Generica");
+                System.out.println("\n7. Ficha tecnica aviones");
+                System.out.println("\n8. Menu anterior");
 
                 try {
                     System.out.println(ANSI_BLUE+ "\nEscribe una de las opciones" + ANSI_RESET);
@@ -545,7 +546,25 @@ public final class Menu {
                             sistema.muestraListaHash();
                             pausa.nextLine();
                             break;
+
                         case 6:
+                            Gold avg2= new Gold(15000, 280, 20, 500, Propulsion.Reaccion,true,6000,"Premium", false, "GOLD");
+                            Silver avs1= new Silver(9000, 250,20,500,Propulsion.Pistones,true,4000,"Basico", "SILVER");
+                            Bronze avb1= new Bronze(9000, 180, 30, 400, Propulsion.Helice,true,3000, "BRONZE");
+                            g.agregarElemento(avg2);
+                            g.agregarElemento(avs1);
+                            g.agregarElemento(avb1);
+
+                            g.recorreArrayyPasaaListaGenerica(sistema.getClientes());
+                            g.recorreArrayyPasaaListaGenerica(sistema.getRutas());
+                            g.recorreArrayyPasaaListaGenerica( sistema.getVuelos());
+                            g.recorreArrayyPasaaListaGenerica(sistema.getReservas());
+
+                            g.cargarListaGen();
+                            menuClaseGenerica();
+                           pausa.nextLine();
+                            break;
+                        case 7:
                             // Interfaz forzada para mostrar como se implementa
                             Gold avionGold = new Gold();
                             Silver avionSilver = new Silver();
@@ -556,13 +575,13 @@ public final class Menu {
                             pausa.nextLine();
 
                             break;
-                        case 7:
+                        case 8:
                             salir = true;
                             System.out.println("Enter para volver a menu anterior");
 
                             break;
                         default:
-                            System.out.println("Solo opciones entre 1 y 7");
+                            System.out.println("Solo opciones entre 1 y 8");
                     }
                 } catch (InputMismatchException e) {
                     System.out.println("Debes ingresar valores enteros");
@@ -616,6 +635,69 @@ public final class Menu {
         pausa.nextLine();
     }
 
+    public void menuClaseGenerica() {
+        Scanner scan = new Scanner(System.in);
+        Scanner pausa = new Scanner(System.in);
+        boolean salir = false;
+        int opcion;
+
+        do {
+            System.out.println("\n1. Filtrar por Clientes\n");
+            System.out.println("\n2. Filtrar por Aviones\n");
+            System.out.println("\n3. Filtrar por Rutas\n");
+            System.out.println("\n4. Filtrar por Vuelos\n");
+            System.out.println("\n5. Filtrar por Reservas\n");
+            System.out.println("\n6. Menu anterior");
+
+            try {
+                System.out.println(ANSI_BLUE + "\nEscribe una de las opciones\n\n" + ANSI_RESET);
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        g.muestraListaC();
+                        pausa.nextLine();
+
+                        break;
+                    case 2:
+                        g.muestraLista();
+                        pausa.nextLine();
+
+                        break;
+
+                    case 3:
+                        g.muestraListaR();
+                        pausa.nextLine();
+
+                        break;
+                    case 4:
+                        g.muestraListaV();
+                        pausa.nextLine();
+
+                        break;
+                    case 5:
+                        g.muestraListaRe();
+                        pausa.nextLine();
+
+                        break;
+
+                    case 6:
+                        g.cargarListaGen();
+                        salir = true;
+
+                        break;
+                    default:
+                        System.out.println("Solo opciones entre 1 y 6");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Debes ingresar valores enteros");
+                scan.next();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                pausa.nextLine();
+            }
+        } while (!salir);
+        pausa.nextLine();
+    }
 
 
 }
